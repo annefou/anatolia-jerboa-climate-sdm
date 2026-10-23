@@ -1,0 +1,17 @@
+{
+ "retrieved_utc": "2026-10-23T21:20:32+00:00",
+ "inaturalist_needs_id_records": 1,
+ "literature_files": {
+  "olgunkaracan2024_genbank_localities.csv": {
+   "rows": 23,
+   "with_coordinates": 23
+  }
+ },
+ "cells_by_source": {
+  "OlgunKaracan2024_GenBank": 23,
+  "GBIF": 19,
+  "iNaturalist needs_id": 1
+ },
+ "cells_total": 43,
+ "gbif_only_cells": 19
+}

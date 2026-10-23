@@ -9,11 +9,16 @@
     (one row per specimen or locality; coordinates as published or georeferenced from the locality text,
     uncertainty as published or from the georeference). Records without coordinates are counted, not used.
 Same filters as 00_occurrences.py (study extent, Afghanistan excluded, uncertainty <= 10 km), except that points
-digitised from published maps are accepted up to 15 km (their reading uncertainty); one record per
-HEALPix cell (GBIF kept first, then literature, then iNaturalist).
+digitised from published maps and localities georeferenced from GenBank place names are accepted up to 15 km
+(their reading or georeferencing uncertainty); one record per HEALPix cell (GBIF kept first, then literature,
+then iNaturalist).
 
-Usage: python pipeline/00b_extra_occurrences.py <ROOT>
-Writes <ROOT>/occ/occurrences_merged.parquet (not committed) and results/occurrences_merged_summary.json.
+Usage: python pipeline/00b_extra_occurrences.py <ROOT> [<NAME> <LITERATURE_FILE> ...]
+NAME = occurrences_merged (default; every file in inputs/literature/) or another set name with its own files,
+e.g. occurrences_genbank inputs/literature_genbank/olgunkaracan2024_genbank_localities.csv (the authors' named localities
+instead of the localities digitised from their map; kept outside inputs/literature/ because many are the same sites
+as the digitised points, 8-20 km apart, and would be counted twice).
+Writes <ROOT>/occ/<NAME>.parquet (not committed) and results/<NAME>_summary.json.
 """
 import glob
 import json
@@ -28,6 +33,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common  # noqa: E402
 
 ROOT = sys.argv[1]
+NAME = sys.argv[2] if len(sys.argv) > 2 else "occurrences_merged"
+FILES = sys.argv[3:] or sorted(glob.glob("inputs/literature/*.csv")) + sorted(glob.glob(f"{ROOT}/occ/sources/*.csv"))
 INAT_TAXON = 1431637
 
 
@@ -53,7 +60,7 @@ def inat() -> pd.DataFrame:
 
 def literature() -> tuple[pd.DataFrame, dict]:
     frames, counts = [], {}
-    for f in sorted(glob.glob("inputs/literature/*.csv")) + sorted(glob.glob(f"{ROOT}/occ/sources/*.csv")):
+    for f in FILES:
         d = pd.read_csv(f)
         counts[os.path.basename(f)] = {"rows": len(d), "with_coordinates": int(d[["lon", "lat"]].notna().all(1).sum())}
         d = d[d[["lon", "lat"]].notna().all(1)].copy()
@@ -74,18 +81,18 @@ def main() -> None:
     x0, y0, x1, y1 = common.EXTENT
     allr = allr[(allr.lon > x0) & (allr.lon < x1) & (allr.lat > y0) & (allr.lat < y1)]
     allr = allr[allr.countryCode.fillna("") != "AF"]
-    lim = np.where(allr.source.str.contains("digitised"), 15000, 10000)
+    lim = np.where(allr.source.str.contains("digitised|GenBank"), 15000, 10000)
     allr = allr[allr.uncertainty_m.isna() | (allr.uncertainty_m <= lim)]
     allr["cell"] = common.lonlat_to_cell(allr.lon.values, allr.lat.values)
     order = {"GBIF": 0, "iNaturalist needs_id": 2}
     allr["rank"] = allr.source.map(lambda s: order.get(s, 1))
     one = allr.sort_values(["rank", "year"], ascending=[True, False]).drop_duplicates("cell")
-    one.drop(columns="rank").to_parquet(f"{ROOT}/occ/occurrences_merged.parquet", index=False)
+    one.drop(columns="rank").to_parquet(f"{ROOT}/occ/{NAME}.parquet", index=False)
     summary = {"retrieved_utc": pd.Timestamp.now("UTC").isoformat(timespec="seconds"),
                "inaturalist_needs_id_records": len(ina), "literature_files": lit_counts,
                "cells_by_source": one.source.value_counts().to_dict(), "cells_total": len(one),
                "gbif_only_cells": int((one.source == "GBIF").sum())}
-    json.dump(summary, open("results/occurrences_merged_summary.json", "w"), indent=1, default=str)
+    json.dump(summary, open(f"results/{NAME}_summary.json", "w"), indent=1, default=str)
     print(json.dumps(summary, indent=1, default=str))
 
 
