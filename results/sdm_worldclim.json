@@ -1,0 +1,47 @@
+{
+ "config": "worldclim",
+ "n_presence_cells": 19,
+ "cell_area_km2": 40.53637359333741,
+ "variables": [
+  "bio2",
+  "bio3",
+  "bio4",
+  "bio8",
+  "bio9",
+  "bio14",
+  "bio15",
+  "bio19"
+ ],
+ "paper_design": {
+  "n_background": 1000,
+  "metrics_mean": {
+   "auc": 0.801,
+   "tss": 0.604,
+   "cor": 0.166
+  },
+  "metrics_sd": {
+   "auc": 0.061,
+   "tss": 0.099,
+   "cor": 0.129
+  },
+  "threshold_maxtss": 0.016,
+  "suitable_km2_baseline_thr0.3": 9769,
+  "suitable_km2_baseline_thr_maxtss": 1358495
+ },
+ "sensitivity_bg10000": {
+  "n_background": 10000,
+  "metrics_mean": {
+   "auc": 0.711,
+   "tss": 0.428,
+   "cor": 0.105
+  },
+  "metrics_sd": {
+   "auc": 0.083,
+   "tss": 0.153,
+   "cor": 0.093
+  },
+  "threshold_maxtss": 0.005,
+  "suitable_km2_baseline_thr0.3": 770,
+  "suitable_km2_baseline_thr_maxtss": 518987
+ }
+}

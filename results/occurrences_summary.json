@@ -1,0 +1,82 @@
+{
+ "connector": "healpix-connector 0.2.0",
+ "taxonomy": "Catalogue of Life XR",
+ "checklist_key": "7ddf754f-d193-4cc9-b351-99906754a03b",
+ "taxon_keys": {
+  "BSW8": "Allactaga (Paralactaga) williamsi Thomas, 1897",
+  "VNB82": "Scarturus williamsi (Hamidi, Darvish & M. Matin, 2016), name used for GBIF records labelled Scarturus williamsi"
+ },
+ "filter_steps": {
+  "in_extent_both_keys": 29,
+  "afghanistan_excluded": 28,
+  "presences_only": 28,
+  "no_geospatial_issue": 28,
+  "uncertainty_le_10km": 27,
+  "one_per_cell": 19
+ },
+ "healpix_depth": 10,
+ "kept_by_taxon_key": {
+  "VNB82": 15,
+  "SVTFB": 2,
+  "BSW8": 1,
+  "BOLD.ACI1976": 1
+ },
+ "kept_by_country": {
+  "TR": 12,
+  "IR": 4,
+  "GE": 2,
+  "AZ": 1
+ },
+ "kept_by_basis": {
+  "HUMAN_OBSERVATION": 17,
+  "MATERIAL_SAMPLE": 1,
+  "MATERIAL_CITATION": 1
+ },
+ "kept_by_licence": {
+  "http://creativecommons.org/licenses/by-nc/4.0/legalcode": 10,
+  "http://creativecommons.org/licenses/by/4.0/legalcode": 8,
+  "http://creativecommons.org/publicdomain/zero/1.0/legalcode": 1
+ },
+ "kept_by_dataset": {
+  "50c9509d-22c7-4a22-a47d-8c48425ef4a7": 13,
+  "81394c45-1942-4689-bfc5-e053ed33b7cc": 2,
+  "8a863029-f435-446a-821e-275f4f641165": 1,
+  "d3b6cb30-0a64-4f82-91ea-0bb14637ee17": 1,
+  "040c5662-da76-4782-a48e-cdea1892d14c": 1,
+  "2d63505a-0e4b-43c6-b53f-ebcf2a34acaa": 1
+ },
+ "uncertainty_stated": 13,
+ "footprint_cells_median": 1.0,
+ "provenance": {
+  "BSW8": {
+   "source": "GBIF occurrence search API",
+   "api": "https://api.gbif.org/v1/occurrence/search",
+   "params": {
+    "geometry": "POLYGON((24.950000 26.950000,73.050000 26.950000,73.050000 42.050000,24.950000 42.050000,24.950000 26.950000))",
+    "hasCoordinate": "true",
+    "checklistKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+    "taxonKey": "BSW8"
+   },
+   "checklist_key": "7ddf754f-d193-4cc9-b351-99906754a03b",
+   "matched_in_query_polygon": 14,
+   "kept_in_region": 14,
+   "retrieved_at": "2026-10-23T19:25:14+00:00",
+   "producer": "healpix-connector 0.2.0"
+  },
+  "VNB82": {
+   "source": "GBIF occurrence search API",
+   "api": "https://api.gbif.org/v1/occurrence/search",
+   "params": {
+    "geometry": "POLYGON((24.950000 26.950000,73.050000 26.950000,73.050000 42.050000,24.950000 42.050000,24.950000 26.950000))",
+    "hasCoordinate": "true",
+    "checklistKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+    "taxonKey": "VNB82"
+   },
+   "checklist_key": "7ddf754f-d193-4cc9-b351-99906754a03b",
+   "matched_in_query_polygon": 15,
+   "kept_in_region": 15,
+   "retrieved_at": "2026-10-23T19:25:14+00:00",
+   "producer": "healpix-connector 0.2.0"
+  }
+ }
+}

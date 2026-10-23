@@ -2,13 +2,13 @@
 
 > This is a working scratchpad for the paper-analysis phase. The output of this file feeds the Quote / AIDA / Claim drafts. It is not itself a nanopub.
 
-**Reference paper:** {{PAPER_TITLE}}
+**Reference paper:** Phylogeography of Scarturus williamsi and Climate Change Impacts: Genetic Diversity and Projected Habitat Loss in Anatolia
 
-**DOI:** {{PAPER_DOI}}
+**DOI:** 10.3390/biology14091184
 
 **Authors:** _add._
 
-**Year:** {{PAPER_YEAR}}
+**Year:** 2025
 
 ## Headline claim
 

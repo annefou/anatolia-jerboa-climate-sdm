@@ -1,30 +1,66 @@
-# {{REPO_NAME}}
+# anatolia-jerboa-climate-sdm
 
-[![CI](https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/actions/workflows/ci.yml/badge.svg)](https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/actions/workflows/ci.yml)
-[![Jupyter Book](https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/actions/workflows/jupyter-book.yml/badge.svg)](https://{{REPO_ORG}}.github.io/{{REPO_NAME}}/)
-[![Docker](https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/actions/workflows/docker.yml/badge.svg)](https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/pkgs/container/{{REPO_NAME}})
+[![CI](https://github.com/annefou/anatolia-jerboa-climate-sdm/actions/workflows/ci.yml/badge.svg)](https://github.com/annefou/anatolia-jerboa-climate-sdm/actions/workflows/ci.yml)
+[![Jupyter Book](https://github.com/annefou/anatolia-jerboa-climate-sdm/actions/workflows/jupyter-book.yml/badge.svg)](https://annefou.github.io/anatolia-jerboa-climate-sdm/)
+[![Docker](https://github.com/annefou/anatolia-jerboa-climate-sdm/actions/workflows/docker.yml/badge.svg)](https://github.com/annefou/anatolia-jerboa-climate-sdm/pkgs/container/anatolia-jerboa-climate-sdm)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/{{ZENODO_DOI}}.svg)]({{ZENODO_DOI}})
 [![FAIR4RS](https://img.shields.io/badge/FAIR4RS-conformant-brightgreen)](docs/fair4rs-checklist.md)
 [![FORRT](https://img.shields.io/badge/FORRT-replication-blue)](https://forrt.org/)
 [![Science Live](https://img.shields.io/badge/Science%20Live-nanopub%20chain-purple)](nanopubs/PUBLISHED.md)
 [![RO-Crate](https://img.shields.io/badge/RO--Crate-1.2-orange)](ro-crate-metadata.json)
-[![Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/{{REPO_ORG}}/{{REPO_NAME}}/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/{{REPO_ORG}}/{{REPO_NAME}})
+[![Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/annefou/anatolia-jerboa-climate-sdm/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/annefou/anatolia-jerboa-climate-sdm)
 
-> **{{PAPER_TITLE}}** — replication study.
-> Reference paper: [{{PAPER_DOI}}](https://doi.org/{{PAPER_DOI}})
+> **Phylogeography of Scarturus williamsi and Climate Change Impacts: Genetic Diversity and Projected Habitat Loss in Anatolia** — replication study.
+> Reference paper: [10.3390/biology14091184](https://doi.org/10.3390/biology14091184)
 
-This is a self-contained replication of the headline claim of the reference paper. It produces a reproducible computational pipeline, a Zenodo-archived release with a citable DOI, and a FORRT-tagged nanopublication chain on the [Science Live platform](https://platform.sciencelive4all.org).
+**DRAFT, not reviewed.** LifeWatch ERIC feasibility test prepared for the meeting with HUBIOM (Hacettepe University) on 30 October 2026. Our reading of the published work, open to correction by the authors. Private until the authors have seen it.
+
+### Claim tested (Helvacı and Çolak 2025, *Biology* 14:1184)
+
+Williams' jerboa loses 40-48 % of its suitable habitat by 2021-2040 and 64-98 % by 2081-2100 (MIROC6, four SSPs; Random Forest, eight bioclimatic variables, threshold 0.3).
+
+### Results (23 October 2026; WorldClim + CMIP6, the paper's design)
+
+| | 19 GBIF cells | 73 cells (GBIF + iNaturalist + 53 localities read from the paper's Figure 1A) |
+| --- | --- | --- |
+| Cross-validated AUC / TSS | 0.80 / 0.60 | 0.90 / 0.72 |
+| Null control: "loss" with no climate change (5 refits), threshold 0.3 | 51 % (26-74 %) | 25 % (15-34 %) |
+| Loss 2021-2040, SSP3-7.0, 12 CMIP6 models, threshold 0.3 | 42-61 % | 62-86 % (median 76 %) |
+| Loss 2081-2100, MIROC6, SSP1-2.6 -> SSP5-8.5 | 56 -> 47 % (no trend) | 84 -> 96 % (rises with emissions) |
+| Same, data-tuned threshold (max TSS): null / near-term loss | 18 % / 15-21 % | 15 % (5-27 %) / 17-30 % |
+
+With public GBIF data alone the projected loss cannot be told from model noise; with the authors' own localities a climate signal clears it. The magnitude depends strongly on the threshold; the direction and the dependence on emissions are the robust findings. Tables: `results/`.
+
+### Method
+
+- Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper with an overlay check (about 15 km uncertainty; kept internal until the authors agree).
+- Climate: WorldClim 2.1 (2.5') and CMIP6 change-factor layers; ERA5-Land 1991-2020 with Climate DT generation 2 changes (in progress), read with healpix-connector `sources.climatedt_monthly`.
+- Grid: HEALPix depth 10 (40.5 km2 cells; healpix-geo, WGS84 ellipsoid, NESTED); resampling with healpix-resample, bilinear in conservative mode (`pipeline/90_compare_resamplers.py`: within 0.1 of an exact area overlap; Climate DT sphere -> WGS84 by matching ids would be off by 0.80 degC on average).
+- Model: as in the paper (Random Forest, 1,000 background cells, 10 replicates 70/30, TSS-weighted ensemble), plus a null control (`pipeline/06_null_control.py`) and sensitivity to the threshold and to 10,000 background cells.
+
+### Limits
+
+- The paper's own coordinates are not public; map readings carry about 15 km uncertainty. Cells of 6.4 km against the paper's 1 km grid.
+- Climate only: land use (steppe turned to cropland) is not in the model.
+- The Climate DT monthly stream has no maximum or minimum temperature; future diurnal range is kept from ERA5-Land (`pipeline/05_bioclim.py` measures how much it changes in CMIP6).
+
+### Data
+
+GBIF records under their own licences (mostly CC BY and CC BY-NC); WorldClim (CC BY 4.0); DestinE Climate DT (DestinE Terms: derived statistics only); ERA5-Land (CC BY). Only code, plots and summary statistics are in this repository.
 
 ---
 
 ## Quick start
 
 ```bash
-git clone https://github.com/{{REPO_ORG}}/{{REPO_NAME}}.git
-cd {{REPO_NAME}}
+git clone https://github.com/annefou/anatolia-jerboa-climate-sdm.git
+cd anatolia-jerboa-climate-sdm
 pixi install
-pixi run snakemake --cores 1
+pixi run occurrences          # GBIF via healpix-connector
+pixi run climate              # WorldClim and CMIP6 on HEALPix
+pixi run sdm                  # model, losses, threshold and background sensitivity
+pixi run python pipeline/06_null_control.py work
 ```
 
 (Pixi resolves `pixi.toml` against the per-platform `pixi.lock`, installs the env under `.pixi/`, and provides `pixi run` for any task without needing an `activate` step.)
@@ -32,10 +68,10 @@ pixi run snakemake --cores 1
 Or with Docker:
 
 ```bash
-docker run --rm ghcr.io/{{REPO_ORG}}/{{REPO_NAME}}:latest
+docker run --rm ghcr.io/annefou/anatolia-jerboa-climate-sdm:latest
 ```
 
-The Jupyter Book version is at <https://{{REPO_ORG}}.github.io/{{REPO_NAME}}/>.
+The Jupyter Book version is at <https://annefou.github.io/anatolia-jerboa-climate-sdm/>.
 
 ## Built from a template
 
@@ -117,7 +153,7 @@ For lower-level nanopub work — retraction, superseding, batch publishing — s
 If you use this work, please cite both:
 
 - This software: [`CITATION.cff`](CITATION.cff) → DOI [{{ZENODO_DOI}}]({{ZENODO_DOI}})
-- The original paper: [{{PAPER_DOI}}](https://doi.org/{{PAPER_DOI}})
+- The original paper: [10.3390/biology14091184](https://doi.org/10.3390/biology14091184)
 
 ## Acknowledgements
 

@@ -1,0 +1,17 @@
+{
+ "retrieved_utc": "2026-10-23T19:26:53+00:00",
+ "inaturalist_needs_id_records": 1,
+ "literature_files": {
+  "helvaci2025_fig1A_digitised.csv": {
+   "rows": 53,
+   "with_coordinates": 53
+  }
+ },
+ "cells_by_source": {
+  "Helvaci&Colak2025_Fig1A_digitised": 53,
+  "GBIF": 19,
+  "iNaturalist needs_id": 1
+ },
+ "cells_total": 73,
+ "gbif_only_cells": 19
+}

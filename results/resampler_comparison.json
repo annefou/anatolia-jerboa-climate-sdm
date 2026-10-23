@@ -1,0 +1,95 @@
+{
+ "depth": 10,
+ "target": "healpix-geo WGS84 nested",
+ "inputs": {
+  "worldclim_bio9": {
+   "n_target_cells": 145969,
+   "hr_conservative": {
+    "cells_with_value_pct": 99.36,
+    "mean_diff": 0.0008,
+    "mae": 0.1194,
+    "p99_abs_diff": 1.1642,
+    "regional_mean": 24.4307,
+    "regional_mean_exact": 24.4299
+   },
+   "hr_bilinear": {
+    "cells_with_value_pct": 99.98,
+    "mean_diff": -0.0001,
+    "mae": 0.0892,
+    "p99_abs_diff": 0.8927,
+    "regional_mean": 24.4325,
+    "regional_mean_exact": 24.4326
+   },
+   "hr_bilinear_conservative": {
+    "cells_with_value_pct": 99.98,
+    "mean_diff": -0.0003,
+    "mae": 0.0873,
+    "p99_abs_diff": 0.8839,
+    "regional_mean": 24.4324,
+    "regional_mean_exact": 24.4326
+   }
+  },
+  "worldclim_bio14": {
+   "n_target_cells": 145969,
+   "hr_conservative": {
+    "cells_with_value_pct": 99.36,
+    "mean_diff": 0.0005,
+    "mae": 0.0711,
+    "p99_abs_diff": 1.008,
+    "regional_mean": 4.1295,
+    "regional_mean_exact": 4.129
+   },
+   "hr_bilinear": {
+    "cells_with_value_pct": 99.98,
+    "mean_diff": 0.0004,
+    "mae": 0.0544,
+    "p99_abs_diff": 0.7237,
+    "regional_mean": 4.1515,
+    "regional_mean_exact": 4.1511
+   },
+   "hr_bilinear_conservative": {
+    "cells_with_value_pct": 99.98,
+    "mean_diff": 0.0006,
+    "mae": 0.0529,
+    "p99_abs_diff": 0.714,
+    "regional_mean": 4.1517,
+    "regional_mean_exact": 4.1511
+   }
+  },
+  "climatedt_avg_2t_2030_01": {
+   "n_target_cells": 161811,
+   "hr_conservative": {
+    "cells_with_value_pct": 100.0,
+    "mean_diff": 0.0193,
+    "mae": 0.2333,
+    "p99_abs_diff": 2.0064,
+    "regional_mean": 4.7856,
+    "regional_mean_exact": 4.7663
+   },
+   "hr_bilinear": {
+    "cells_with_value_pct": 100.0,
+    "mean_diff": -0.0056,
+    "mae": 0.0684,
+    "p99_abs_diff": 0.5908,
+    "regional_mean": 4.7602,
+    "regional_mean_exact": 4.7658
+   },
+   "hr_bilinear_conservative": {
+    "cells_with_value_pct": 100.0,
+    "mean_diff": -0.0056,
+    "mae": 0.0684,
+    "p99_abs_diff": 0.5911,
+    "regional_mean": 4.7602,
+    "regional_mean_exact": 4.7658
+   },
+   "same_index_no_regrid": {
+    "cells_with_value_pct": 100.0,
+    "mean_diff": 0.0811,
+    "mae": 0.802,
+    "p99_abs_diff": 6.6943,
+    "regional_mean": 4.8469,
+    "regional_mean_exact": 4.7658
+   }
+  }
+ }
+}

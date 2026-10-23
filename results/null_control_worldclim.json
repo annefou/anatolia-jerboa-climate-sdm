@@ -1,0 +1,33 @@
+{
+ "config": "worldclim",
+ "occurrences": "occurrences",
+ "n_seeds": 5,
+ "thr0.3": {
+  "suitable_cells_per_fit": [
+   213,
+   251,
+   149,
+   199,
+   129
+  ],
+  "null_loss_pct_mean": 51.5,
+  "null_loss_pct_range": [
+   26.2,
+   73.8
+  ]
+ },
+ "thr_maxtss": {
+  "suitable_cells_per_fit": [
+   21305,
+   24437,
+   23301,
+   29165,
+   38017
+  ],
+  "null_loss_pct_mean": 17.5,
+  "null_loss_pct_range": [
+   1.0,
+   44.8
+  ]
+ }
+}

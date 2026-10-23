@@ -8,7 +8,7 @@
 # this file; commit both files in the same commit.
 
 [workspace]
-name = "{{REPO_NAME}}"
+name = "anatolia-jerboa-climate-sdm"
 # bioconda hosts snakemake (and downstream rule-engine ecosystem); conda-forge
 # is the priority channel for everything else.
 channels = ["conda-forge", "bioconda"]
@@ -33,27 +33,26 @@ nbclient = "*"
 ipykernel = "*"
 # --- pipeline driver ---
 snakemake = "*"
-# --- replace/extend with the deps your replication needs ---
-# Examples (uncomment as needed):
-# statsmodels = "*"          # GLM/GLMM regression
-# scikit-learn = "*"         # classical ML
-# pyproj = "*"               # CRS + map projections
-# cartopy = "*"              # geographic plotting
-# netcdf4 = "*"              # NetCDF I/O — preferred over .npz for arrays (see DOMAIN.md)
-# zarr = "*"                 # Zarr — preferred for arrays >2 GB or cloud-archived (see DOMAIN.md)
-# cdsapi = "*"               # Copernicus Climate Data Store
-# copernicusmarine = "*"     # Copernicus Marine Service
-# healpix-geo = "*"          # HEALPix on geo data — preferred (use nest=True — see DOMAIN.md)
-# healpy = "*"               # HEALPix on pure-sphere (astrophysics) only
-# rasterio = "*"             # raster I/O
-# geopandas = "*"            # vector I/O
-# dask = "*"                 # out-of-core / parallel
+# --- this replication ---
+scikit-learn = "*"           # Random Forest (as in the paper) and a second algorithm for the ensemble
+pyproj = "*"
+rasterio = "*"               # WorldClim GeoTIFFs (windowed reads over HTTP)
+geopandas = ">=1.0"
+pyogrio = "*"
+shapely = ">=2.0"
+healpix-geo = ">=0.4.1"      # HEALPix on the WGS84 ellipsoid, NESTED (sphere only to address the Climate DT grid)
+netcdf4 = "*"
+h5netcdf = "*"
+requests = "*"
+eccodes = "*"              # GRIB (Climate DT, ERA5-Land)
+python-eccodes = "*"
+cdsapi = "*"               # ERA5-Land from the Copernicus Climate Data Store
+pytorch-cpu = "*"          # backend of healpix-resample
 
-# Pip-only deps go in [pypi-dependencies]. Conda-forge is preferred where available.
-# [pypi-dependencies]
-# pygbif = "*"               # GBIF occurrences
-# polytope-client = "*"      # Destination Earth Climate DT
-# earthkit-data = "*"
+[pypi-dependencies]
+polytope-client = "*"        # Destination Earth Climate DT (DestinE upgraded access)
+healpix-resample = "*"       # GRID4EARTH resamplers (compared with exact overlap in tests/)
+healpix-connector = { git = "https://github.com/annefou/healpix-connector", tag = "v0.2.0" }   # GBIF and Climate DT on HEALPix (LifeWatch ERIC, GRID4EARTH)
 
 [feature.docs.dependencies]
 mystmd = "*"
@@ -76,6 +75,9 @@ tests = { features = ["tests"], solve-group = "default" }
 
 [tasks]
 run = "snakemake --cores 1"
+occurrences = "python pipeline/00_occurrences.py work"
+climate = "python pipeline/01_worldclim_healpix.py work"
+sdm = "python pipeline/02_sdm.py work"
 book = "myst build --html"
 lab = "jupyter lab"
 
