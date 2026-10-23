@@ -35,7 +35,8 @@ With public GBIF data alone the projected loss cannot be told from model noise; 
 ### Method
 
 - Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper (CC BY 4.0) with an overlay check, about 15 km uncertainty: `inputs/literature/helvaci2025_fig1A_digitised.csv`, `figures/helvaci2025_fig1A_digitised_overlay.png`, reproduced by `pipeline/digitise/fetch_figure.py` then `fig1_points.py` (kept in this private repository until the authors agree).
-- Climate: WorldClim 2.1 (2.5') and CMIP6 change-factor layers; ERA5-Land 1991-2020 with Climate DT generation 2 changes (in progress), read with healpix-connector `sources.climatedt_monthly`.
+- Climate: WorldClim 2.1 (2.5') and CMIP6 change-factor layers; ERA5 1991-2020 (`pipeline/04b_era5.py`, Planetary Computer Zarr) with Climate DT generation 2 changes (IFS-FESOM done, IFS-NEMO in progress), read with healpix-connector `sources.climatedt_monthly`; ERA5-Land (`pipeline/04_era5land.py`) as a second baseline when the CDS queue allows.
+- ERA5 (0.25 deg, wider than a cell) goes onto the WGS84 cells with healpix-connector `sources.gridded.sample_cells_from_grid` (value of the box containing the cell centre); an exact area overlap differs by 0.1 degC on average (2001).
 - Grid: HEALPix depth 10 (40.5 km2 cells; healpix-geo, WGS84 ellipsoid, NESTED); resampling with healpix-resample, bilinear in conservative mode (`pipeline/90_compare_resamplers.py`: within 0.1 of an exact area overlap; Climate DT sphere -> WGS84 by matching ids would be off by 0.80 degC on average).
 - Model: as in the paper (Random Forest, 1,000 background cells, 10 replicates 70/30, TSS-weighted ensemble), plus a null control (`pipeline/06_null_control.py`) and sensitivity to the threshold and to 10,000 background cells.
 
@@ -43,11 +44,11 @@ With public GBIF data alone the projected loss cannot be told from model noise; 
 
 - The paper's own coordinates are not public; map readings carry about 15 km uncertainty. Cells of 6.4 km against the paper's 1 km grid.
 - Climate only: land use (steppe turned to cropland) is not in the model.
-- The Climate DT monthly stream has no maximum or minimum temperature; future diurnal range is kept from ERA5-Land (`pipeline/05_bioclim.py` measures how much it changes in CMIP6).
+- The Climate DT monthly stream has no maximum or minimum temperature; future diurnal range is kept from the reanalysis baseline (`pipeline/05_bioclim.py` measures how much it changes in CMIP6).
 
 ### Data
 
-GBIF records under their own licences (mostly CC BY and CC BY-NC); WorldClim (CC BY 4.0); DestinE Climate DT (DestinE Terms: derived statistics only); ERA5-Land (CC BY). Only code, plots and summary statistics are in this repository.
+GBIF records under their own licences (mostly CC BY and CC BY-NC); WorldClim (CC BY 4.0); DestinE Climate DT (DestinE Terms: derived statistics only); ERA5 and ERA5-Land (Copernicus, CC BY). Only code, plots and summary statistics are in this repository.
 
 ---
 

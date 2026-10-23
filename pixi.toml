@@ -48,6 +48,8 @@ eccodes = "*"              # GRIB (Climate DT, ERA5-Land)
 python-eccodes = "*"
 cdsapi = "*"               # ERA5-Land from the Copernicus Climate Data Store
 pytorch-cpu = "*"          # backend of healpix-resample
+zarr = ">=3.4.1,<4"
+adlfs = ">=2026.8.0,<2027"
 
 [pypi-dependencies]
 polytope-client = "*"        # Destination Earth Climate DT (DestinE upgraded access)

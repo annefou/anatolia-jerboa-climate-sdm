@@ -9,7 +9,7 @@ are not public); the unit is a HEALPix cell (depth 10, 40.5 km2, equal area), so
 uniform in area and areas are cell counts x 40.5 km2; 2.5' WorldClim instead of 30''.
 Sensitivity (not in the paper): threshold = mean max-TSS threshold of the replicates; 10 000 background cells.
 
-Usage: python pipeline/02_sdm.py <ROOT> [<CONFIG> [<OCC>]]   CONFIG = worldclim (default) | era5land,
+Usage: python pipeline/02_sdm.py <ROOT> [<CONFIG> [<OCC>]]   CONFIG = worldclim (default) | era5land | era5,
        OCC = occurrences (GBIF, default) | occurrences_merged (GBIF + iNaturalist + digitised literature)
 Reads <ROOT>/occ/occurrences.parquet and <ROOT>/clim/<config>_*.parquet. Writes results/sdm_<config>.json,
 results/loss_<config>.csv and <ROOT>/sdm/<config>_suitability.parquet (per-cell suitability, not committed).
@@ -31,7 +31,7 @@ ROOT = sys.argv[1]
 CONFIG = sys.argv[2] if len(sys.argv) > 2 else "worldclim"
 OCC = sys.argv[3] if len(sys.argv) > 3 else "occurrences"          # or occurrences_merged (00b)
 TAG = CONFIG if OCC == "occurrences" else f"{CONFIG}_{OCC}"
-BASELINE = {"worldclim": "baseline_1970-2000", "era5land": "baseline_1991-2020"}[CONFIG]
+BASELINE = {"worldclim": "baseline_1970-2000", "era5land": "baseline_1991-2020", "era5": "baseline_1991-2020"}[CONFIG]
 VARS = ["bio2", "bio3", "bio4", "bio8", "bio9", "bio14", "bio15", "bio19"]
 NREP, NBG, THR, SEED = 10, 1000, 0.3, 20251001
 

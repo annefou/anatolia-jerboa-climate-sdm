@@ -1,6 +1,6 @@
-"""Bioclimatic variables for the ERA5-Land / Climate DT configuration, on the study cells.
+"""Bioclimatic variables for the reanalysis / Climate DT configuration, on the study cells.
 
-Baseline: ERA5-Land 1991-2020, monthly climatology of tmax, tmin (mean of daily max / min) and precipitation.
+Baseline: ERA5-Land (04_era5land.py) or ERA5 (04b_era5.py) 1991-2020, monthly climatology of tmax, tmin (mean of daily max / min) and precipitation.
 Future: change-factor method, the same as WorldClim's CMIP6 layers, with the Climate DT as the source of change:
   delta_T(m)  = Climate DT avg_2t, 2021-2040 minus 1991-2020 (hist 1991-2014 + SSP3-7.0 2015-2020), per month
   tmax' = tmax + delta_T, tmin' = tmin + delta_T   (the monthly stream has no max/min: diurnal range unchanged)
@@ -10,12 +10,13 @@ Definitions follow WorldClim / dismo::biovars: tavg = (tmax + tmin) / 2; bio2 = 
 bio3 = 100 bio2 / bio7; bio4 = 100 sd(tavg); bio7 = max(tmax) - min(tmin); bio8 / bio9 = mean tavg of the
 wettest / driest quarter; bio14 = min pr; bio15 = 100 sd(pr) / (1 + mean(pr)); bio19 = pr of the coldest quarter.
 Checks written to results/bioclim_checks.json:
-  * how much bio2 changes by 2021-2040 (SSP3-7.0) in the 13 WorldClim CMIP6 models (tests the
+  * how much bio2 changes by 2021-2040 (SSP3-7.0) in the 11 WorldClim CMIP6 models with SSP3-7.0 (tests the
     unchanged-diurnal-range assumption);
-  * Climate DT 1991-2020 bias against ERA5-Land (mean temperature, precipitation), per model.
+  * Climate DT 1991-2020 bias against the baseline reanalysis (mean temperature, precipitation), per model.
 
-Usage: python pipeline/05_bioclim.py <ROOT> <MODEL> [<MODEL> ...]
-Writes <ROOT>/clim/era5land_baseline_1991-2020.parquet and <ROOT>/clim/era5land_<MODEL>_ssp370_2021-2040.parquet.
+Usage: python pipeline/05_bioclim.py <ROOT> <BASELINE> <MODEL> [<MODEL> ...]   BASELINE = era5land | era5
+Writes <ROOT>/clim/<BASELINE>_baseline_1991-2020.parquet, <ROOT>/clim/<BASELINE>_ClimateDT-<MODEL>_ssp370_2021-2040.parquet
+and results/bioclim_checks_<BASELINE>.json.
 """
 import glob
 import json
@@ -25,7 +26,8 @@ import sys
 import numpy as np
 import pandas as pd
 
-ROOT, MODELS = sys.argv[1], sys.argv[2:]
+ROOT, BASE, MODELS = sys.argv[1], sys.argv[2], sys.argv[3:]
+FOLDER = {"era5land": "era5l", "era5": "era5"}[BASE]
 VARS = ["bio2", "bio3", "bio4", "bio8", "bio9", "bio14", "bio15", "bio19"]
 
 
@@ -60,12 +62,12 @@ def clim(folder, keys, y0, y1):
 def main() -> None:
     cells = pd.read_parquet(f"{ROOT}/clim/cells.parquet")
     land = cells.land_frac.values >= 0.5
-    e5 = clim(f"{ROOT}/era5l", ["tmax", "tmin", "pr"], 1991, 2020)
+    e5 = clim(f"{ROOT}/{FOLDER}", ["tmax", "tmin", "pr"], 1991, 2020)
     base = bioclim(e5["tmax"], e5["tmin"], e5["pr"])
     base[~land] = np.nan
     base.insert(0, "cell", cells.cell.values)
-    base.to_parquet(f"{ROOT}/clim/era5land_baseline_1991-2020.parquet", index=False)
-    checks = {"dt_bias_vs_era5land_1991_2020": {}, "dt_change_2021_2040": {}}
+    base.to_parquet(f"{ROOT}/clim/{BASE}_baseline_1991-2020.parquet", index=False)
+    checks = {"baseline": BASE, "dt_bias_vs_baseline_1991_2020": {}, "dt_change_2021_2040": {}}
     e5_t = (e5["tmax"] + e5["tmin"]) / 2
     for model in MODELS:
         b = clim(f"{ROOT}/dt/{model}", ["t2m", "pr"], 1991, 2020)
@@ -76,9 +78,9 @@ def main() -> None:
         fut = bioclim(e5["tmax"] + dT, e5["tmin"] + dT, pr_f)
         fut[~land] = np.nan
         fut.insert(0, "cell", cells.cell.values)
-        fut.to_parquet(f"{ROOT}/clim/era5land_ClimateDT-{model}_ssp370_2021-2040.parquet", index=False)
+        fut.to_parquet(f"{ROOT}/clim/{BASE}_ClimateDT-{model}_ssp370_2021-2040.parquet", index=False)
         m = land[None, :] & np.isfinite(e5_t)
-        checks["dt_bias_vs_era5land_1991_2020"][model] = {
+        checks["dt_bias_vs_baseline_1991_2020"][model] = {
             "t_mean_bias_degC": round(float(np.nanmean((b["t2m"] - e5_t)[m])), 2),
             "t_mae_degC": round(float(np.nanmean(np.abs(b["t2m"] - e5_t)[m])), 2),
             "pr_annual_ratio": round(float(np.nansum(b["pr"][m]) / np.nansum(e5["pr"][m])), 3)}
@@ -95,9 +97,9 @@ def main() -> None:
         d2[g] = {"mean": round(float(diff.mean()), 3), "p05": round(float(diff.quantile(0.05)), 3),
                  "p95": round(float(diff.quantile(0.95)), 3)}
     checks["cmip6_bio2_change_2021_2040_ssp370_degC"] = d2
-    checks["era5land_baseline_bio2_mean_degC"] = round(float(base.bio2[land].mean()), 2)
+    checks["baseline_bio2_mean_degC"] = round(float(base.bio2[land].mean()), 2)
     os.makedirs("results", exist_ok=True)
-    json.dump(checks, open("results/bioclim_checks.json", "w"), indent=1)
+    json.dump(checks, open(f"results/bioclim_checks_{BASE}.json", "w"), indent=1)
     print(json.dumps(checks, indent=1))
 
 

@@ -1,0 +1,78 @@
+[
+ {
+  "thr": "Fixed threshold 0.3",
+  "conf": "WorldClim + 11 CMIP6",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 25.3,
+  "lo": 15.5,
+  "hi": 34.4
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "conf": "WorldClim + 11 CMIP6",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 projection",
+  "n_models": 11,
+  "mid": 76.4,
+  "lo": 62.4,
+  "hi": 85.7
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "conf": "WorldClim + 11 CMIP6",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 14.8,
+  "lo": 4.6,
+  "hi": 27.4
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "conf": "WorldClim + 11 CMIP6",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 projection",
+  "n_models": 11,
+  "mid": 24.7,
+  "lo": 16.5,
+  "hi": 30.2
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "conf": "ERA5 + Climate DT IFS-FESOM",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 21.3,
+  "lo": 12.8,
+  "hi": 32.0
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "conf": "ERA5 + Climate DT IFS-FESOM",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 projection",
+  "n_models": 1,
+  "mid": 62.8,
+  "lo": 62.8,
+  "hi": 62.8
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "conf": "ERA5 + Climate DT IFS-FESOM",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 16.8,
+  "lo": 6.6,
+  "hi": 29.9
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "conf": "ERA5 + Climate DT IFS-FESOM",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 projection",
+  "n_models": 1,
+  "mid": 24.5,
+  "lo": 24.5,
+  "hi": 24.5
+ }
+]

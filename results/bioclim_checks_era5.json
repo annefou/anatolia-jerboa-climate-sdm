@@ -1,0 +1,75 @@
+{
+ "baseline": "era5",
+ "dt_bias_vs_baseline_1991_2020": {
+  "IFS-FESOM": {
+   "t_mean_bias_degC": 1.0,
+   "t_mae_degC": 2.07,
+   "pr_annual_ratio": 0.521
+  }
+ },
+ "dt_change_2021_2040": {
+  "IFS-FESOM": {
+   "dT_annual_mean_degC": 0.82,
+   "dT_summer_JJA_degC": 1.31,
+   "pr_annual_change_pct": -4.7
+  }
+ },
+ "cmip6_bio2_change_2021_2040_ssp370_degC": {
+  "ACCESS-CM2": {
+   "mean": 0.153,
+   "p05": -0.108,
+   "p95": 0.383
+  },
+  "BCC-CSM2-MR": {
+   "mean": 0.285,
+   "p05": -0.01,
+   "p95": 0.579
+  },
+  "CMCC-ESM2": {
+   "mean": 0.023,
+   "p05": -0.325,
+   "p95": 0.465
+  },
+  "EC-Earth3-Veg": {
+   "mean": -0.17,
+   "p05": -0.442,
+   "p95": 0.115
+  },
+  "GISS-E2-1-G": {
+   "mean": 0.004,
+   "p05": -0.436,
+   "p95": 0.363
+  },
+  "INM-CM5-0": {
+   "mean": 0.047,
+   "p05": -0.226,
+   "p95": 0.214
+  },
+  "IPSL-CM6A-LR": {
+   "mean": -0.107,
+   "p05": -0.482,
+   "p95": 0.119
+  },
+  "MIROC6": {
+   "mean": 0.024,
+   "p05": -0.269,
+   "p95": 0.367
+  },
+  "MPI-ESM1-2-HR": {
+   "mean": -0.169,
+   "p05": -0.425,
+   "p95": 0.025
+  },
+  "MRI-ESM2-0": {
+   "mean": 0.028,
+   "p05": -0.276,
+   "p95": 0.195
+  },
+  "UKESM1-0-LL": {
+   "mean": 0.199,
+   "p05": -0.216,
+   "p95": 0.662
+  }
+ },
+ "baseline_bio2_mean_degC": 11.57
+}

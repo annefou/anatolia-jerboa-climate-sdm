@@ -1,0 +1,33 @@
+{
+ "config": "era5",
+ "occurrences": "occurrences_merged",
+ "n_seeds": 5,
+ "thr0.3": {
+  "suitable_cells_per_fit": [
+   6457,
+   6027,
+   6283,
+   5924,
+   5165
+  ],
+  "null_loss_pct_mean": 21.3,
+  "null_loss_pct_range": [
+   12.8,
+   32.0
+  ]
+ },
+ "thr_maxtss": {
+  "suitable_cells_per_fit": [
+   19240,
+   21983,
+   23662,
+   24302,
+   19816
+  ],
+  "null_loss_pct_mean": 16.8,
+  "null_loss_pct_range": [
+   6.6,
+   29.9
+  ]
+ }
+}
