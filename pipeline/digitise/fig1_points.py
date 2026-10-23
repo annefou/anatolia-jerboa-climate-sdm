@@ -12,7 +12,9 @@ others cannot be recovered. An automatic detection was tried first and missed or
 points found on two settings), so it was replaced by this reading.
 The overlay written by this script must be checked by eye after any change.
 
-Usage: python pipeline/digitise/fig1_points.py <FIGURE> <OUT_CSV> <OVERLAY_PNG>
+Usage: python pipeline/digitise/fetch_figure.py work/fig
+       python pipeline/digitise/fig1_points.py work/fig/biology-14-01184-g001.jpg \
+              inputs/literature/helvaci2025_fig1A_digitised.csv figures/helvaci2025_fig1A_digitised_overlay.png
 """
 import sys
 

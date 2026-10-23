@@ -2,7 +2,9 @@
 
   * iNaturalist (API v1): observations of Scarturus williamsi (taxon 1431637) not already in GBIF, quality
     grade "needs_id" only ("casual" = captive, no date or no evidence, excluded), positional accuracy <= 10 km.
-  * Literature / collection tables: every CSV in <ROOT>/occ/sources/ with columns
+  * Literature / collection tables: every CSV in inputs/literature/ (committed; e.g. the 53 localities
+    digitised from Helvaci & Colak 2025 Figure 1A by pipeline/digitise/fig1_points.py) and in
+    <ROOT>/occ/sources/ (local additions), with columns
         source, locality, lon, lat, uncertainty_m, year, voucher
     (one row per specimen or locality; coordinates as published or georeferenced from the locality text,
     uncertainty as published or from the georeference). Records without coordinates are counted, not used.
@@ -51,7 +53,7 @@ def inat() -> pd.DataFrame:
 
 def literature() -> tuple[pd.DataFrame, dict]:
     frames, counts = [], {}
-    for f in sorted(glob.glob(f"{ROOT}/occ/sources/*.csv")):
+    for f in sorted(glob.glob("inputs/literature/*.csv")) + sorted(glob.glob(f"{ROOT}/occ/sources/*.csv")):
         d = pd.read_csv(f)
         counts[os.path.basename(f)] = {"rows": len(d), "with_coordinates": int(d[["lon", "lat"]].notna().all(1).sum())}
         d = d[d[["lon", "lat"]].notna().all(1)].copy()

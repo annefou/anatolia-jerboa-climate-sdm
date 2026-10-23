@@ -26,7 +26,7 @@ Williams' jerboa loses 40-48 % of its suitable habitat by 2021-2040 and 64-98 % 
 | --- | --- | --- |
 | Cross-validated AUC / TSS | 0.80 / 0.60 | 0.90 / 0.72 |
 | Null control: "loss" with no climate change (5 refits), threshold 0.3 | 51 % (26-74 %) | 25 % (15-34 %) |
-| Loss 2021-2040, SSP3-7.0, 12 CMIP6 models, threshold 0.3 | 42-61 % | 62-86 % (median 76 %) |
+| Loss 2021-2040, SSP3-7.0, 11 CMIP6 models (WorldClim has no SSP3-7.0 for FIO-ESM-2-0 and HadGEM3-GC31-LL), threshold 0.3 | 42-61 % | 62-86 % (median 76 %) |
 | Loss 2081-2100, MIROC6, SSP1-2.6 -> SSP5-8.5 | 56 -> 47 % (no trend) | 84 -> 96 % (rises with emissions) |
 | Same, data-tuned threshold (max TSS): null / near-term loss | 18 % / 15-21 % | 15 % (5-27 %) / 17-30 % |
 
@@ -34,7 +34,7 @@ With public GBIF data alone the projected loss cannot be told from model noise; 
 
 ### Method
 
-- Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper with an overlay check (about 15 km uncertainty; kept internal until the authors agree).
+- Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper (CC BY 4.0) with an overlay check, about 15 km uncertainty: `inputs/literature/helvaci2025_fig1A_digitised.csv`, `figures/helvaci2025_fig1A_digitised_overlay.png`, reproduced by `pipeline/digitise/fetch_figure.py` then `fig1_points.py` (kept in this private repository until the authors agree).
 - Climate: WorldClim 2.1 (2.5') and CMIP6 change-factor layers; ERA5-Land 1991-2020 with Climate DT generation 2 changes (in progress), read with healpix-connector `sources.climatedt_monthly`.
 - Grid: HEALPix depth 10 (40.5 km2 cells; healpix-geo, WGS84 ellipsoid, NESTED); resampling with healpix-resample, bilinear in conservative mode (`pipeline/90_compare_resamplers.py`: within 0.1 of an exact area overlap; Climate DT sphere -> WGS84 by matching ids would be off by 0.80 degC on average).
 - Model: as in the paper (Random Forest, 1,000 background cells, 10 replicates 70/30, TSS-weighted ensemble), plus a null control (`pipeline/06_null_control.py`) and sensitivity to the threshold and to 10,000 background cells.

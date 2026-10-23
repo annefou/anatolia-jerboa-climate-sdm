@@ -1,0 +1,74 @@
+[
+ {
+  "thr": "Fixed threshold 0.3",
+  "occ": "19 GBIF cells",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 51.5,
+  "lo": 26.2,
+  "hi": 73.8
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "occ": "19 GBIF cells",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 (11 CMIP6 models)",
+  "mid": 47.7,
+  "lo": 41.9,
+  "hi": 61.4
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "occ": "19 GBIF cells",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 17.5,
+  "lo": 1.0,
+  "hi": 44.8
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "occ": "19 GBIF cells",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 (11 CMIP6 models)",
+  "mid": 17.0,
+  "lo": 15.1,
+  "hi": 20.7
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "occ": "73 cells",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 25.3,
+  "lo": 15.5,
+  "hi": 34.4
+ },
+ {
+  "thr": "Fixed threshold 0.3",
+  "occ": "73 cells",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 (11 CMIP6 models)",
+  "mid": 76.4,
+  "lo": 62.4,
+  "hi": 85.7
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "occ": "73 cells",
+  "kind": "null",
+  "series": "No climate change (null control, 5 refits)",
+  "mid": 14.8,
+  "lo": 4.6,
+  "hi": 27.4
+ },
+ {
+  "thr": "Data-tuned threshold (max TSS)",
+  "occ": "73 cells",
+  "kind": "proj",
+  "series": "2021-2040, SSP3-7.0 (11 CMIP6 models)",
+  "mid": 24.7,
+  "lo": 16.5,
+  "hi": 30.2
+ }
+]
