@@ -3,6 +3,7 @@
 Figure "projected loss against the null control" (2021-2040, SSP3-7.0, 11 CMIP6 models; null = 5 refits
 with no climate change), for both occurrence sets and both thresholds.
 Reads results/loss_worldclim*.csv and results/null_control_worldclim*.json; writes results/doc_figure_loss_vs_null.json.
+Also writes figures/doc_loss_vs_null.png and figures/doc_worldclim_vs_climatedt.png (the second figure is described below).
 """
 import json
 
@@ -43,3 +44,49 @@ for conf, clab in CONF.items():
                       "mid": round(float(g.loss_pct.median()), 1), "lo": float(g.loss_pct.min()), "hi": float(g.loss_pct.max())})
 json.dump(rows2, open("results/doc_figure_climatedt.json", "w"), indent=1)
 print(json.dumps(rows2, indent=1))
+
+# The same two figures as PNG, drawn from the rows above (the country file draws them live from the same rows).
+import matplotlib  # noqa: E402
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+
+BLUE, GREY = "#2f6fd6", "#b8b8b0"
+
+
+def dot_range(rows, group_key, title, subtitle, out):
+    panels = list(dict.fromkeys(r["thr"] for r in rows))
+    groups = list(dict.fromkeys(r[group_key] for r in rows))
+    fig, axs = plt.subplots(1, len(panels), figsize=(11, 4.6), sharey=True)
+    for ax, p in zip(axs, panels):
+        for gi, g in enumerate(groups):
+            for r in (r for r in rows if r["thr"] == p and r[group_key] == g):
+                x = gi + (-0.15 if r["kind"] == "null" else 0.15)
+                c = GREY if r["kind"] == "null" else BLUE
+                ax.vlines(x, r["lo"], r["hi"], color=c, lw=3)
+                ax.plot(x, r["mid"], "o", color=c, ms=9)
+                n = r.get("n_models", 1)
+                ax.annotate(f"{int(r['mid'] + 0.5)}%" + (f" ({n} models)" if r["kind"] == "proj" and n > 1 else ""),
+                            (x, r["mid"]), xytext=(8, -4), textcoords="offset points", fontsize=9)
+        ax.set_xticks(range(len(groups)), groups, fontsize=9)
+        ax.set_xlim(-0.6, len(groups) - 0.4)
+        ax.set_ylim(0, 100)
+        ax.set_title(p, fontsize=10, fontweight="bold")
+        ax.grid(axis="y", color="0.9")
+        ax.spines[["top", "right"]].set_visible(False)
+    axs[0].set_ylabel("Share of today's suitable habitat lost (%)")
+    axs[0].plot([], [], "o", color=GREY, label="No climate change (null control, 5 refits)")
+    axs[0].plot([], [], "o", color=BLUE, label="2021-2040, SSP3-7.0 projection")
+    fig.legend(loc="upper left", bbox_to_anchor=(0.01, 0.9), ncol=2, frameon=False, fontsize=9)
+    fig.suptitle(title, x=0.01, ha="left", fontweight="bold")
+    fig.text(0.01, 0.905, subtitle, fontsize=9, color="0.35")
+    fig.tight_layout(rect=(0, 0, 1, 0.87))
+    fig.savefig(out, dpi=160)
+    plt.close(fig)
+
+
+dot_range(rows, "occ", "With the authors' localities, projected loss clears the noise",
+          "Williams' jerboa, WorldClim 2.1 + 11 CMIP6 models; dot = median (null: mean), line = range",
+          "figures/doc_loss_vs_null.png")
+dot_range(rows2, "conf", "The Climate Digital Twin gives the same answer as WorldClim",
+          "Williams' jerboa, 73 cells; each climate source against its own null control",
+          "figures/doc_worldclim_vs_climatedt.png")
