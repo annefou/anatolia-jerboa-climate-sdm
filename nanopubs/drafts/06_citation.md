@@ -1,7 +1,5 @@
 # 06 — CiTO Citation
 
-> Run the pre-flight checklist in `docs/forrt-form-fields.md` § Pre-flight checklist before drafting.
-
 **Description:** *"Declare citations between papers or other works, using Citation Typing Ontology"*
 
 ## Field-by-field draft
@@ -9,10 +7,8 @@
 <!-- field: work -->
 ### Identifier for the citing creative work (text input, required)
 
-URI of the Outcome published in step 05. Pull from `nanopubs/PUBLISHED.md`.
-
 ```
-
+«URI of step 05 (FORRT Replication Outcome), filled by the chain wizard»
 ```
 
 ### List citations (repeatable group, required ≥1)
@@ -21,25 +17,13 @@ URI of the Outcome published in step 05. Pull from `nanopubs/PUBLISHED.md`.
 
 ##### Citation Type (dropdown)
 
-Choose based on the Outcome's validation status:
-
-- Validated → `confirms`
-- PartiallySupported → `qualifies`
-- Contradicted → `disputes`
-
-For question-rooted chains where there is no original paper to confirm/dispute, use `usesMethodIn` or `citesAsAuthority` for the methodology paper(s).
-
-Write the chosen type in the block below (a vocabulary label such as `cites as authority`, or `citesAsAuthority`). `build-chain-draft` uses it as written; leave the block empty to have the type derived from the Outcome's validation status, which is right for paper-rooted chains only.
-
-> **Note:** `replicates` is NOT in the Science Live dropdown (despite existing in upstream CiTO). When citing a notebook/tutorial that was directly reused, use **`credits`** instead.
+Outcome is "partially supported", so `qualifies` (from `vocabulary("cito_relation")`, live).
 
 ```
-
+qualifies
 ```
 
 ##### DOI or other URL of the cited work (text input)
-
-Must be a DOI (`https://doi.org/...`): the first citation is the work the chain is about. Leave the placeholder to use the paper in `CITATION.cff`. Links to other works, such as another chain's nanopublication, go under *Additional citations* below.
 
 ```
 https://doi.org/10.3390/biology14091184
@@ -47,17 +31,13 @@ https://doi.org/10.3390/biology14091184
 
 #### Additional citations (optional)
 
-If the Outcome cites methods papers, related replications, or upstream tools, add them here.
+All DOIs resolved on 2026-10-24; relations from `vocabulary("cito_relation")`. The paper is also cited for its Figure 1A localities (CC BY 4.0); Olgun Karacan et al. 2024 for the GenBank localities; WorldClim 2 for the climate data; healpix-connector for reading GBIF and gridded climate onto the cells.
 
-One line per further citation, in this exact form (each becomes a pre-filled row):
-
-- _Type: ___ → URL: ___
+- Type: uses data from → URL: https://doi.org/10.3390/biology14091184
+- Type: uses data from → URL: https://doi.org/10.1155/jzs/8123686
+- Type: cites as data source → URL: https://doi.org/10.1002/joc.5086
+- Type: uses method in → URL: https://doi.org/10.5281/zenodo.23603498
 
 ## Publication note
 
 After publishing, paste the resulting URI into `nanopubs/PUBLISHED.md` step 06.
-
-This completes the six-step FORRT chain. Optional next layers:
-
-- **Research Software** (`drafts/07_research_software.md`) — if the repo *produces* a reusable software artefact.
-- **Research Synthesis** (`drafts/08_synthesis.md`) — if this chain is one of several testing facets of a shared property.

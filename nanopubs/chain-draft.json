@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0",
+  "kind": "forrt-chain-draft",
+  "chain_shape": "paper-rooted",
+  "source": {
+    "repository": "https://github.com/annefou/anatolia-jerboa-climate-sdm",
+    "commit": "3c6aa9834fac198cc7d80611ffb6b020c8c4b338",
+    "figure": "figures/doc_loss_vs_null.png"
+  },
+  "steps": [
+    {
+      "step": "01_quote",
+      "template_key": "ANNOTATE_QUOTATION",
+      "template_uri": "https://w3id.org/np/RA24onqmqTMsraJ7ypYFOuckmNWpo4Zv5gsLqhXt7xYPU",
+      "prefill": {
+        "paper": "10.3390/biology14091184",
+        "quotation": "Climate projections reveal severe vulnerability with habitat losses of 63.69–98.41% by 2081–2100 across emission scenarios.",
+        "comment": "This is the paper's headline conservation result: a Random Forest model of the climate niche of Williams' jerboa, an endemic steppe rodent, projects that most of its currently suitable habitat becomes unsuitable by 2081-2100 under every emission scenario. The replication tests whether the size of this loss holds with the paper's design when the occurrence data have to be rebuilt from public sources, and whether it exceeds the apparent loss that refitting the same model with no climate change already produces."
+      },
+      "provenance": {
+        "paper": "CITATION.cff",
+        "quotation": "nanopubs/drafts/01_quote.md",
+        "comment": "nanopubs/drafts/01_quote.md"
+      },
+      "published_uri": null
+    },
+    {
+      "step": "02_aida",
+      "template_key": "AIDA_SENTENCE",
+      "template_uri": "https://w3id.org/np/RALmXhDw3rHcMveTgbv8VtWxijUHwnSqhCmtJFIPKWVaA",
+      "prefill": {
+        "aida": "Under every emission scenario, most of the climatically suitable habitat of Williams' jerboa in Anatolia and adjacent regions becomes unsuitable by the end of the twenty-first century.",
+        "topic": [
+          {
+            "uri": "http://www.wikidata.org/entity/Q117051118",
+            "label": "species distribution modelling"
+          },
+          {
+            "uri": "http://www.wikidata.org/entity/Q125928",
+            "label": "climate change"
+          }
+        ]
+      },
+      "provenance": {
+        "aida": "nanopubs/drafts/02_aida.md",
+        "topic": "nanopubs/drafts/02_aida.md + Wikidata"
+      },
+      "published_uri": null
+    },
+    {
+      "step": "03_claim",
+      "template_key": "FORRT_CLAIM",
+      "template_uri": "https://w3id.org/np/RAZWyM8D16ya3S1zhCvrG1f0iSpd9-8onVWp0FTvvX7LQ",
+      "prefill": {
+        "claim": "scarturus-williamsi-habitat-loss-claim",
+        "label": "Williams' jerboa projected habitat loss of 63.69-98.41% by 2081-2100 across emission scenarios (Helvacı & Çolak 2025)",
+        "forrtType": "https://w3id.org/sciencelive/o/terms/descriptive_pattern-FORRT-Claim",
+        "source": "https://doi.org/10.3390/biology14091184"
+      },
+      "provenance": {
+        "claim": "nanopubs/drafts/03_claim.md",
+        "label": "nanopubs/drafts/03_claim.md",
+        "forrtType": "nanopubs/drafts/03_claim.md",
+        "source": "CITATION.cff"
+      },
+      "manual": [
+        "forrtType"
+      ],
+      "published_uri": null
+    },
+    {
+      "step": "04_study",
+      "template_key": "FORRT_REPLICATION",
+      "template_uri": "https://w3id.org/np/RAuLEjPp-4dTvPwMkfHggTto1CgjIftiGRAgHlyeEonjQ",
+      "prefill": {
+        "study": "scarturus-williamsi-habitat-loss-replication-study",
+        "label": "Replication of the projected habitat loss of Williams' jerboa with public occurrences on HEALPix cells and a null control",
+        "type": "https://w3id.org/sciencelive/o/terms/Reproduction-Replication-Study",
+        "scope": "The claim that 63.69-98.41% of the currently suitable habitat of Scarturus williamsi is lost by 2081-2100 across SSP1-2.6, SSP2-4.5, SSP3-7.0 and SSP5-8.5 with MIROC6. In scope: the size of the end-of-century loss per scenario with the paper's model design and threshold, its dependence on emissions, whether it exceeds the loss produced by model noise alone, and how it depends on the occurrence data and the threshold. Out of scope: the phylogeography and genetic results, the variable importance and response curves, and land-use change.",
+        "methodology": "Model as in the paper: Random Forest on eight bioclimatic variables (bio2, bio3, bio4, bio8, bio9, bio14, bio15, bio19), 1000 random background cells over 25-73 E and 27-42 N, 10 replicates with a random 70/30 split, ensemble weighted by TSS, suitability threshold 0.3, loss as the share of currently suitable habitat that is unsuitable in the future. Climate: WorldClim 2.1 baseline and MIROC6 CMIP6 layers for the four scenarios and periods. Unit: HEALPix cells of 40.5 km2 (depth 10, WGS84 ellipsoid, nested). Occurrences, since the paper's are not public: three sets, GBIF only (19 cells); GBIF plus iNaturalist plus 53 localities read from the paper's Figure 1A (73 cells); and 23 localities named in GenBank records of an independent study (43 cells). Null control: the ensemble is refitted five times with new seeds on the same data and baseline; the loss between fits is method noise. Sensitivity: data-tuned threshold (max TSS) and 10000 background cells.",
+        "deviation": "The paper's validated occurrence coordinates are not published, so occurrences come from GBIF, iNaturalist, map readings of Figure 1A (about 15 km uncertainty) and geocoded GenBank localities. Cells of 40.5 km2 replace 1 km pixels and WorldClim is used at 2.5 arc-minutes instead of 30 arc-seconds. scikit-learn Random Forest replaces the R sdm package. The null control, the threshold and background sensitivity, and additional climate inputs (eleven CMIP6 models for 2021-2040, ERA5 with Climate DT projections) are not in the paper.",
+        "keywordSelection": [
+          {
+            "uri": "http://www.wikidata.org/entity/Q111744929",
+            "label": "Williams's jerboa"
+          },
+          {
+            "uri": "http://www.wikidata.org/entity/Q117051118",
+            "label": "species distribution modelling"
+          },
+          {
+            "uri": "http://www.wikidata.org/entity/Q125928",
+            "label": "climate change"
+          }
+        ],
+        "disciplineSelection": {
+          "uri": "http://www.wikidata.org/entity/Q7150",
+          "label": "ecology"
+        }
+      },
+      "provenance": {
+        "study": "nanopubs/drafts/04_study.md",
+        "label": "nanopubs/drafts/04_study.md",
+        "type": "nanopubs/drafts/04_study.md",
+        "scope": "nanopubs/drafts/04_study.md",
+        "methodology": "nanopubs/drafts/04_study.md",
+        "deviation": "nanopubs/drafts/04_study.md",
+        "keywordSelection": "nanopubs/drafts/04_study.md + Wikidata",
+        "disciplineSelection": "nanopubs/drafts/04_study.md + Wikidata"
+      },
+      "manual": [
+        "type"
+      ],
+      "published_uri": null
+    },
+    {
+      "step": "05_outcome",
+      "template_key": "FORRT_REPLICATION_OUTCOME",
+      "template_uri": "https://w3id.org/np/RA2zljn0Nw9SadppOyxZoh-_Rxosslrq-vYG-p9SttnJE",
+      "prefill": {
+        "outcome": "scarturus-williamsi-habitat-loss-outcome",
+        "label": "Severe end-of-century habitat loss reproduced with the authors' localities, not with public GBIF data alone; size depends on the threshold",
+        "date": "2026-10-23",
+        "validationStatus": "https://w3id.org/sciencelive/o/terms/PartiallySupported",
+        "conclusion": "With the paper's design, threshold 0.3 and the 73 cells that include localities read from the paper's map, MIROC6 losses for 2081-2100 are 83.6, 92.3, 95.1 and 95.8% from SSP1-2.6 to SSP5-8.5, against the paper's 63.69-98.41%, and well above the 25% apparent loss that refitting the model with no climate change produces. An independent set of GenBank localities gives 81.8-98.0% against a 36% null. With public GBIF records alone (19 cells) the losses, 45.6-56.4%, cannot be told apart from the 51.5% null and show no rise with emissions. With a data-tuned threshold the losses fall to 27-41%. The severe, emission-dependent loss is supported, but only with the authors' localities, and its size depends on the threshold.",
+        "evidence": "Occurrence sets (HEALPix cells of 40.5 km2): GBIF 19; GBIF + iNaturalist + 53 Figure 1A localities 73; GenBank localities 43. Cross-validated AUC / TSS: 0.80 / 0.60 (19), 0.90 / 0.72 (73), 0.90 / 0.73 (43); paper 0.84 / 0.64. Loss 2081-2100, MIROC6, threshold 0.3, SSP1-2.6 / 2-4.5 / 3-7.0 / 5-8.5: 73 cells 83.6 / 92.3 / 95.1 / 95.8%; 43 cells 81.8 / 90.6 / 96.2 / 98.0%; 19 cells 56.4 / 53.9 / 45.6 / 47.3%; paper 63.69 / 90.27 / 98.41 / 93.14%. Null control, five refits, mean (range): 25.3% (15.5-34.4), 36.1% (16.2-51.5), 51.5% (26.2-73.8). Max-TSS threshold, 73 cells: loss 27.2-40.7%, null 14.8% (4.6-27.4). SSP3-7.0 2021-2040, eleven CMIP6 models, 73 cells: 62.4-85.7% (paper, MIROC6: 39.76%). Files: results/loss_worldclim_occurrences_merged.csv, results/null_control_worldclim_occurrences_merged.json.",
+        "confidenceLevel": "https://w3id.org/sciencelive/o/terms/Moderate",
+        "limitations": "The paper's validated coordinates are not public; map readings of Figure 1A carry about 15 km uncertainty and GenBank localities 5-15 km. Cells of 6.4 km against the paper's 1 km grid. One climate model for the end of the century, as in the paper. A fixed threshold of 0.3 drives the size of the loss: with 10000 background cells almost no cell exceeds it. Climate only; conversion of steppe to cropland is not modelled."
+      },
+      "provenance": {
+        "outcome": "nanopubs/drafts/05_outcome.md",
+        "label": "nanopubs/drafts/05_outcome.md",
+        "date": "CITATION.cff",
+        "validationStatus": "nanopubs/drafts/05_outcome.md",
+        "conclusion": "nanopubs/drafts/05_outcome.md",
+        "evidence": "nanopubs/drafts/05_outcome.md",
+        "confidenceLevel": "nanopubs/drafts/05_outcome.md",
+        "limitations": "nanopubs/drafts/05_outcome.md"
+      },
+      "manual": [
+        "validationStatus",
+        "confidenceLevel"
+      ],
+      "published_uri": null
+    },
+    {
+      "step": "06_citation",
+      "template_key": "CITATION_CITO",
+      "template_uri": "https://w3id.org/np/RA43F9EoOuzF0xoNUnCMNyFsfIqlsuWDdPHCnN0wCdCAw",
+      "prefill": {
+        "st02": [
+          {
+            "cites": "http://purl.org/spar/cito/qualifies",
+            "cited": "https://doi.org/10.3390/biology14091184"
+          },
+          {
+            "cites": "http://purl.org/spar/cito/usesDataFrom",
+            "cited": "https://doi.org/10.3390/biology14091184"
+          },
+          {
+            "cites": "http://purl.org/spar/cito/usesDataFrom",
+            "cited": "https://doi.org/10.1155/jzs/8123686"
+          },
+          {
+            "cites": "http://purl.org/spar/cito/citesAsDataSource",
+            "cited": "https://doi.org/10.1002/joc.5086"
+          },
+          {
+            "cites": "http://purl.org/spar/cito/usesMethodIn",
+            "cited": "https://doi.org/10.5281/zenodo.23603498"
+          }
+        ]
+      },
+      "provenance": {
+        "st02": "cites = nanopubs/drafts/06_citation.md; cited = nanopubs/drafts/06_citation.md; further rows = nanopubs/drafts/06_citation.md"
+      },
+      "published_uri": null
+    }
+  ],
+  "carry_forward": [
+    {
+      "from": "01_quote",
+      "into": "02_aida",
+      "field": "project"
+    },
+    {
+      "from": "02_aida",
+      "into": "03_claim",
+      "field": "aida"
+    },
+    {
+      "from": "03_claim",
+      "into": "04_study",
+      "field": "claim"
+    },
+    {
+      "from": "04_study",
+      "into": "05_outcome",
+      "field": "study"
+    },
+    {
+      "from": "05_outcome",
+      "into": "06_citation",
+      "field": "work"
+    }
+  ]
+}
