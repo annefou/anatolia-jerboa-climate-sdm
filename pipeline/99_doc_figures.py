@@ -29,7 +29,7 @@ print(json.dumps(rows, indent=1))
 # Figure "WorldClim against the Climate Digital Twin" (73 cells, 2021-2040, SSP3-7.0): each configuration with its
 # own null control. Reads results/loss_era5_occurrences_merged.csv, null_control_era5_occurrences_merged.json and
 # bioclim_checks_era5.json; writes results/doc_figure_climatedt.json.
-CONF = {"worldclim": "WorldClim + 11 CMIP6", "era5": "ERA5 + Climate DT IFS-FESOM"}
+CONF = {"worldclim": "WorldClim + 11 CMIP6", "era5": "ERA5 + Climate DT (2 models)"}
 rows2 = []
 for conf, clab in CONF.items():
     tag = f"{conf}_occurrences_merged"
@@ -87,6 +87,6 @@ def dot_range(rows, group_key, title, subtitle, out):
 dot_range(rows, "occ", "With the authors' localities, projected loss clears the noise",
           "Williams' jerboa, WorldClim 2.1 + 11 CMIP6 models; dot = median (null: mean), line = range",
           "figures/doc_loss_vs_null.png")
-dot_range(rows2, "conf", "The Climate Digital Twin gives the same answer as WorldClim",
+dot_range(rows2, "conf", "Both Climate Digital Twin models give the same answer as WorldClim",
           "Williams' jerboa, 73 cells; each climate source against its own null control",
           "figures/doc_worldclim_vs_climatedt.png")

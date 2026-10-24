@@ -1,5 +1,9 @@
 design,threshold,climate,suitable_now_cells,lost_cells,gained_cells,loss_pct,net_change_pct
 paper_design,thr0.3,ClimateDT-IFS-FESOM_ssp370_2021-2040,5771,3627,725,62.8,-50.3
+paper_design,thr0.3,ClimateDT-IFS-NEMO_ssp370_2021-2040,5771,4044,634,70.1,-59.1
 paper_design,thr_maxtss,ClimateDT-IFS-FESOM_ssp370_2021-2040,22958,5616,5723,24.5,0.5
+paper_design,thr_maxtss,ClimateDT-IFS-NEMO_ssp370_2021-2040,22958,5786,5371,25.2,-1.8
 sensitivity_bg10000,thr0.3,ClimateDT-IFS-FESOM_ssp370_2021-2040,808,808,0,100.0,-100.0
+sensitivity_bg10000,thr0.3,ClimateDT-IFS-NEMO_ssp370_2021-2040,808,808,0,100.0,-100.0
 sensitivity_bg10000,thr_maxtss,ClimateDT-IFS-FESOM_ssp370_2021-2040,22094,4911,18485,22.2,61.4
+sensitivity_bg10000,thr_maxtss,ClimateDT-IFS-NEMO_ssp370_2021-2040,22094,5171,16344,23.4,50.6

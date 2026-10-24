@@ -5,6 +5,11 @@
    "t_mean_bias_degC": 1.0,
    "t_mae_degC": 2.07,
    "pr_annual_ratio": 0.521
+  },
+  "IFS-NEMO": {
+   "t_mean_bias_degC": 1.05,
+   "t_mae_degC": 1.7,
+   "pr_annual_ratio": 0.701
   }
  },
  "dt_change_2021_2040": {
@@ -12,6 +17,11 @@
    "dT_annual_mean_degC": 0.82,
    "dT_summer_JJA_degC": 1.31,
    "pr_annual_change_pct": -4.7
+  },
+  "IFS-NEMO": {
+   "dT_annual_mean_degC": 0.64,
+   "dT_summer_JJA_degC": 1.28,
+   "pr_annual_change_pct": -0.9
   }
  },
  "cmip6_bio2_change_2021_2040_ssp370_degC": {
