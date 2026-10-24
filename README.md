@@ -75,6 +75,20 @@ docker run --rm ghcr.io/annefou/anatolia-jerboa-climate-sdm:latest
 
 The Jupyter Book version is at <https://annefou.github.io/anatolia-jerboa-climate-sdm/>.
 
+## How to reproduce
+
+```
+pixi install
+pixi run snakemake --cores 1             # GBIF, iNaturalist, digitised and GenBank localities, WorldClim + CMIP6
+pixi run snakemake --cores 1 climatedt   # ERA5 (Planetary Computer) + Climate DT: needs DestinE upgraded access
+pixi run snakemake --cores 1 era5land    # ERA5-Land cross-check: needs a CDS account; the CDS queue is slow
+```
+
+Every step is a script in `pipeline/` with its usage in its docstring; `Snakefile` gives the order, inputs and
+outputs. Accounts are read from `~/.polytopeapirc` (DestinE) and `~/.cdsapirc` (CDS) and never stored here.
+Downloads stay in `work/`; only code, plots, inputs that we digitised or georeferenced, and summary results are
+committed. The country-file charts are in `docs/country_file/` (code, rows and the script that writes them).
+
 ## Built from a template
 
 This repository was created from [`sciencelivehub/forrt-replication-template`](https://github.com/sciencelivehub/forrt-replication-template). The template ships an operating manual for AI assistants ([`CLAUDE.md`](CLAUDE.md), [`AGENTS.md`](AGENTS.md)), domain conventions ([`DOMAIN.md`](DOMAIN.md)), and reference docs (`docs/`) so that an AI working only inside this repository can guide a researcher from "paper PDF + GitHub repo" to "published FORRT chain + Zenodo DOI" with no other context.
