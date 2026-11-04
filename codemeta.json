@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "name": "anatolia-jerboa-climate-sdm",
   "description": "Williams' jerboa habitat under climate change in Anatolia: replication of Helvacı & Çolak 2025 on HEALPix (healpix-geo, WGS84) with a multi-model CMIP6 ensemble and the DestinE Climate DT. DRAFT, not reviewed.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dateCreated": "2026-10-23",
   "dateModified": "2026-11-04",
   "license": "https://spdx.org/licenses/MIT",
