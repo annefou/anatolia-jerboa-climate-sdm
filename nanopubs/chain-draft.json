@@ -4,7 +4,7 @@
   "chain_shape": "paper-rooted",
   "source": {
     "repository": "https://github.com/annefou/anatolia-jerboa-climate-sdm",
-    "commit": "72dd2c753933cb5af2b6323b76a5a65d27a731da",
+    "commit": "ebed61bcfee2d3d06512323795dd510036042ac3",
     "figure": "figures/doc_loss_vs_null.png"
   },
   "steps": [
@@ -120,7 +120,8 @@
       "prefill": {
         "outcome": "scarturus-williamsi-habitat-loss-outcome",
         "label": "Severe end-of-century habitat loss reproduced with the authors' localities, not with public GBIF data alone; size depends on the threshold",
-        "date": "2026-10-23",
+        "repo": "https://doi.org/10.5281/zenodo.23945001",
+        "date": "2026-11-04",
         "validationStatus": "https://w3id.org/sciencelive/o/terms/PartiallySupported",
         "conclusion": "With the paper's design, threshold 0.3 and the 73 cells that include localities read from the paper's map, MIROC6 losses for 2081-2100 are 83.6, 92.3, 95.1 and 95.8% from SSP1-2.6 to SSP5-8.5, against the paper's 63.69-98.41%, and well above the 25% apparent loss that refitting the model with no climate change produces. An independent set of GenBank localities gives 81.8-98.0% against a 36% null. With public GBIF records alone (19 cells) the losses, 45.6-56.4%, cannot be told apart from the 51.5% null and show no rise with emissions. With a data-tuned threshold the losses fall to 27-41%. The severe, emission-dependent loss is supported, but only with the authors' localities, and its size depends on the threshold.",
         "evidence": "Occurrence sets (HEALPix cells of 40.5 km2): GBIF 19; GBIF + iNaturalist + 53 Figure 1A localities 73; GenBank localities 43. Cross-validated AUC / TSS: 0.80 / 0.60 (19), 0.90 / 0.72 (73), 0.90 / 0.73 (43); paper 0.84 / 0.64. Loss 2081-2100, MIROC6, threshold 0.3, SSP1-2.6 / 2-4.5 / 3-7.0 / 5-8.5: 73 cells 83.6 / 92.3 / 95.1 / 95.8%; 43 cells 81.8 / 90.6 / 96.2 / 98.0%; 19 cells 56.4 / 53.9 / 45.6 / 47.3%; paper 63.69 / 90.27 / 98.41 / 93.14%. Null control, five refits, mean (range): 25.3% (15.5-34.4), 36.1% (16.2-51.5), 51.5% (26.2-73.8). Max-TSS threshold, 73 cells: loss 27.2-40.7%, null 14.8% (4.6-27.4). SSP3-7.0 2021-2040, eleven CMIP6 models, 73 cells: 62.4-85.7% (paper, MIROC6: 39.76%). Files: results/loss_worldclim_occurrences_merged.csv, results/null_control_worldclim_occurrences_merged.json.",
@@ -130,6 +131,7 @@
       "provenance": {
         "outcome": "nanopubs/drafts/05_outcome.md",
         "label": "nanopubs/drafts/05_outcome.md",
+        "repo": "CITATION.cff",
         "date": "CITATION.cff",
         "validationStatus": "nanopubs/drafts/05_outcome.md",
         "conclusion": "nanopubs/drafts/05_outcome.md",
