@@ -10,7 +10,7 @@ authors:
 repository-code: "https://github.com/annefou/anatolia-jerboa-climate-sdm"
 license: MIT
 version: "0.1.0"
-date-released: "2026-10-23"
+date-released: "2026-11-04"
 # Identifiers below are recorded AUTOMATICALLY on each release by
 # .github/workflows/release-identifiers.yml — don't fill them in by hand.
 #

@@ -142,6 +142,26 @@ jobs:
             printf '%s' "${out}"
           }
 
+          # Creators and licence from CITATION.cff (name "Family, Given", ORCID, affiliation), not the GitHub
+          # login of whoever cut the release: the Zenodo record is permanent.
+          python3 -m pip install --quiet --disable-pip-version-check pyyaml
+          CREATORS=$(python3 -c 'import json, yaml
+          c = yaml.safe_load(open("CITATION.cff"))
+          out = []
+          for a in c.get("authors", []):
+              d = {"name": a["family-names"] + ", " + a["given-names"]} if "family-names" in a else {"name": a["name"]}
+              if a.get("orcid"):
+                  d["orcid"] = a["orcid"].rsplit("/", 1)[-1]
+              if a.get("affiliation"):
+                  d["affiliation"] = a["affiliation"]
+              out.append(d)
+          print(json.dumps(out))')
+          LICENSE_ID=$(python3 -c 'import yaml; print(yaml.safe_load(open("CITATION.cff")).get("license", "MIT"))')
+          if [ "${CREATORS}" = "[]" ]; then
+            echo "::error::CITATION.cff lists no authors; refusing to deposit an image with no creators."
+            exit 1
+          fi
+          echo "Creators: ${CREATORS}"
           REPO_NAME="${{ github.event.repository.name }}"
           TAG="${IMAGE_TAG}"
           REPO_URL="${{ github.event.repository.html_url }}"
@@ -174,11 +194,7 @@ jobs:
               "title": "${REPO_NAME} ${TAG} — Docker container image",
               "upload_type": "software",
               "description": "Docker container image for <a href='${REPO_URL}'>${REPO_NAME}</a> ${TAG}. Built from the Dockerfile in the repository. Load with: <code>docker load < ${FILENAME}</code>",
-              "creators": [
-                {
-                  "name": "${{ github.actor }}"
-                }
-              ],
+              "creators": ${CREATORS},
               "keywords": [
                 "docker",
                 "container",
@@ -186,7 +202,7 @@ jobs:
                 "FORRT",
                 "FAIR4RS"
               ],
-              "license": "MIT",
+              "license": "${LICENSE_ID}",
               "related_identifiers": [
                 {
                   "identifier": "${REPO_URL}",

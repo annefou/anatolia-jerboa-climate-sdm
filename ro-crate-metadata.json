@@ -16,7 +16,7 @@
       "@type": ["Dataset", "ResearchObject"],
       "name": "anatolia-jerboa-climate-sdm",
       "description": "Williams' jerboa habitat under climate change in Anatolia: replication of Helvacı & Çolak 2025 on HEALPix (healpix-geo, WGS84) with a multi-model CMIP6 ensemble and the DestinE Climate DT. DRAFT, not reviewed.",
-      "datePublished": "2026-10-23",
+      "datePublished": "2026-11-04",
       "license": { "@id": "https://spdx.org/licenses/MIT" },
       "publisher": { "@id": "https://orcid.org/0000-0002-1784-2920" },
       "author": [{ "@id": "https://orcid.org/0000-0002-1784-2920" }],
