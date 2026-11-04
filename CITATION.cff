@@ -29,6 +29,12 @@ identifiers:
   value: 10.5281/zenodo.23942469
   description: Concept DOI (resolves to the latest version) — cite the project
 - type: doi
+  value: 10.5281/zenodo.23945001
+  description: Version DOI for v0.1.1 — pins this exact release; cite this from nanopubs
+- type: swh
+  value: swh:1:rev:50bc119c5079568f3417a9497c27da967f4f9e82;origin=https://github.com/annefou/anatolia-jerboa-climate-sdm
+  description: Software Heritage ID of the v0.1.1 source tree
+- type: doi
   value: 10.5281/zenodo.23942470
   description: Version DOI for v0.1.0 — pins this exact release; cite this from nanopubs
 - type: swh
