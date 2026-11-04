@@ -14,7 +14,7 @@
 > **Phylogeography of Scarturus williamsi and Climate Change Impacts: Genetic Diversity and Projected Habitat Loss in Anatolia** — replication study.
 > Reference paper: [10.3390/biology14091184](https://doi.org/10.3390/biology14091184)
 
-**DRAFT, not reviewed.** LifeWatch ERIC feasibility test prepared for the meeting with HUBIOM (Hacettepe University) on 30 October 2026. Our reading of the published work, open to correction by the authors. Private until the authors have seen it.
+**DRAFT, not reviewed.** LifeWatch ERIC feasibility test prepared for the meeting with HUBIOM (Hacettepe University) on 30 October 2026. Our reading of the published work, open to correction by the authors.
 
 ### Claim tested (Helvacı and Çolak 2025, *Biology* 14:1184)
 
@@ -34,7 +34,7 @@ With public GBIF data alone the projected loss cannot be told from model noise; 
 
 ### Method
 
-- Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper (CC BY 4.0) with an overlay check, about 15 km uncertainty: `inputs/literature/helvaci2025_fig1A_digitised.csv`, `figures/helvaci2025_fig1A_digitised_overlay.png`, reproduced by `pipeline/digitise/fetch_figure.py` then `fig1_points.py` (kept in this private repository until the authors agree).
+- Occurrences: GBIF read with [healpix-connector](https://github.com/annefou/healpix-connector) v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)), Catalogue of Life XR taxonomy stated (keys BSW8, *Allactaga (Paralactaga) williamsi* Thomas 1897, and VNB82, the 2016 concept to which records labelled *Scarturus williamsi* are attached by name matching), each record's uncertainty footprint kept; iNaturalist "needs ID"; 53 localities digitised from Figure 1A of the paper (CC BY 4.0) with an overlay check, about 15 km uncertainty: `inputs/literature/helvaci2025_fig1A_digitised.csv`, `figures/helvaci2025_fig1A_digitised_overlay.png`, reproduced by `pipeline/digitise/fetch_figure.py` then `fig1_points.py`.
 - Check without map digitising: 23 *S. williamsi* localities named in the GenBank records of Olgun Karacan et al. 2024 (doi:10.1155/jzs/8123686; their Table S1 gives provinces only), geocoded with OpenStreetMap Nominatim (5 km for a village or town, 15 km for a district): `inputs/literature_genbank/olgunkaracan2024_genbank_localities.csv` by `pipeline/digitise/genbank_localities.py`; set `occurrences_genbank` (43 cells), run with `00b_extra_occurrences.py work occurrences_genbank <file>`, `02_sdm.py`, `06_null_control.py`.
 - Climate: WorldClim 2.1 (2.5') and CMIP6 change-factor layers; ERA5 1991-2020 (`pipeline/04b_era5.py`, Planetary Computer Zarr) with Climate DT generation 2 changes (IFS-FESOM and IFS-NEMO), read with healpix-connector `sources.climatedt_monthly`; ERA5-Land (`pipeline/04_era5land.py`) as a second baseline when the CDS queue allows.
 - ERA5 (0.25 deg, wider than a cell) goes onto the WGS84 cells with healpix-connector `sources.gridded.sample_cells_from_grid` (value of the box containing the cell centre); an exact area overlap differs by 0.1 degC on average (2001).
