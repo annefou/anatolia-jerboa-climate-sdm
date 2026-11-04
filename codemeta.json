@@ -8,14 +8,21 @@
   "dateModified": "2026-11-04",
   "license": "https://spdx.org/licenses/MIT",
   "codeRepository": "https://github.com/annefou/anatolia-jerboa-climate-sdm",
-  "identifier": "{{ZENODO_DOI}}",
-  "@id": "{{ZENODO_DOI}}",
+  "identifier": [
+    "https://doi.org/10.5281/zenodo.23942469",
+    "https://doi.org/10.5281/zenodo.23942470",
+    "swh:1:rev:808db8ef831b543ca5d2474ba877dabd8e818cff;origin=https://github.com/annefou/anatolia-jerboa-climate-sdm"
+  ],
+  "@id": "https://doi.org/10.5281/zenodo.23942469",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "Python",
     "version": "3.12"
   },
-  "operatingSystem": ["Linux", "macOS"],
+  "operatingSystem": [
+    "Linux",
+    "macOS"
+  ],
   "author": [
     {
       "@type": "Person",

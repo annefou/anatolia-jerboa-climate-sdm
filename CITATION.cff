@@ -3,10 +3,10 @@ title: "anatolia-jerboa-climate-sdm"
 message: "If you use this software, please cite it as below."
 type: software
 authors:
-  - family-names: "Fouilloux"
-    given-names: "Anne"
-    orcid: "https://orcid.org/0000-0002-1784-2920"
-    affiliation: "LifeWatch ERIC"
+- family-names: "Fouilloux"
+  given-names: "Anne"
+  orcid: "https://orcid.org/0000-0002-1784-2920"
+  affiliation: "LifeWatch ERIC"
 repository-code: "https://github.com/annefou/anatolia-jerboa-climate-sdm"
 license: MIT
 version: "0.1.0"
@@ -23,27 +23,30 @@ date-released: "2026-11-04"
 # named was gone and "edit by hand" was the only path left. Two repos built from
 # this template then recorded the version DOI two different ways — one a
 # structured identifier, one a prose comment. Hence the automation.)
-doi: "{{ZENODO_DOI}}"
+doi: "10.5281/zenodo.23942469"
 identifiers:
-  - type: doi
-    value: "{{ZENODO_DOI}}"
-    description: "Concept DOI (resolves to the latest version) — cite the project"
-  # On release, the workflow adds:
-  #   - type: doi   value: <version DOI>  "Version DOI for vX.Y.Z — pins this exact release; cite this from nanopubs"
-  #   - type: swh   value: swh:1:rev:<commit>;origin=<repo>  "Software Heritage ID of the vX.Y.Z source tree"
+- type: doi
+  value: 10.5281/zenodo.23942469
+  description: Concept DOI (resolves to the latest version) — cite the project
+- type: doi
+  value: 10.5281/zenodo.23942470
+  description: Version DOI for v0.1.0 — pins this exact release; cite this from nanopubs
+- type: swh
+  value: swh:1:rev:808db8ef831b543ca5d2474ba877dabd8e818cff;origin=https://github.com/annefou/anatolia-jerboa-climate-sdm
+  description: Software Heritage ID of the v0.1.0 source tree
 keywords:
-  - replication
-  - reproducibility
-  - FORRT
-  - nanopublication
-  - Science-Live
+- replication
+- reproducibility
+- FORRT
+- nanopublication
+- Science-Live
 references:
-  - type: article
-    title: "Phylogeography of Scarturus williamsi and Climate Change Impacts: Genetic Diversity and Projected Habitat Loss in Anatolia"
-    authors:
-      - family-names: "Helvacı"
-        given-names: "Zeycan"
-      - family-names: "Çolak"
-        given-names: "Ercüment"
-    year: "2025"
-    doi: "10.3390/biology14091184"
+- type: article
+  title: "Phylogeography of Scarturus williamsi and Climate Change Impacts: Genetic Diversity and Projected Habitat Loss in Anatolia"
+  authors:
+  - family-names: "Helvacı"
+    given-names: "Zeycan"
+  - family-names: "Çolak"
+    given-names: "Ercüment"
+  year: "2025"
+  doi: "10.3390/biology14091184"
