@@ -4,7 +4,7 @@
   "chain_shape": "paper-rooted",
   "source": {
     "repository": "https://github.com/annefou/anatolia-jerboa-climate-sdm",
-    "commit": "3c6aa9834fac198cc7d80611ffb6b020c8c4b338",
+    "commit": "72dd2c753933cb5af2b6323b76a5a65d27a731da",
     "figure": "figures/doc_loss_vs_null.png"
   },
   "steps": [
