@@ -1,5 +1,5 @@
 """ERA5 monthly climate 1991-2020 on the study cells (healpix-geo WGS84, depth 10): a second observation-based
-baseline for the Climate DT configuration, used while the ERA5-Land daily statistics wait in the CDS queue.
+baseline for the Climate DT configuration.
 
 Source: ERA5 hourly single levels, Zarr copy on Microsoft Planetary Computer (collection era5-pds, one store per
 variable and month; anonymous SAS token from the Planetary Computer token service; ERA5 licence: Copernicus, CC-BY):

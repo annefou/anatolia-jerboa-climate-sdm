@@ -2,11 +2,11 @@
 #
 #   pixi run snakemake --cores 1             # open data only: GBIF, iNaturalist, WorldClim + CMIP6
 #   pixi run snakemake --cores 1 climatedt   # adds ERA5 + Climate DT (needs DestinE upgraded access)
-#   pixi run snakemake --cores 1 era5land    # ERA5-Land cross-check (CDS account; the CDS queue is slow)
+#   pixi run snakemake --cores 1 era5land    # future exploration, not in the results (README; CDS account)
 #   pixi run snakemake --cores 1 -n          # dry run
 #
 # Downloads go to work/ (not committed). Accounts are read from the usual files, never copied here:
-# DestinE ~/.polytopeapirc (Climate DT), CDS ~/.cdsapirc (ERA5-Land). ERA5 comes from the anonymous Microsoft
+# DestinE ~/.polytopeapirc (Climate DT), CDS ~/.cdsapirc (ERA5-Land, future exploration only). ERA5 comes from the anonymous Microsoft
 # Planetary Computer copy; GBIF, iNaturalist, NCBI, OpenStreetMap Nominatim, Europe PMC and WorldClim are open.
 
 W = "work"

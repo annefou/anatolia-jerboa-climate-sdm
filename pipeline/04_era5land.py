@@ -11,6 +11,8 @@ mode, area = cos(latitude)). Sea points are missing in ERA5-Land and stay missin
 Usage: python pipeline/04_era5land.py <ROOT> [<Y0> <Y1>]
 Writes <ROOT>/era5l/<year>.npz with tmax, tmin (degC) and pr (mm per month), arrays (12, ncells), float32.
 Raw downloads are deleted after processing.
+
+Not part of the results: kept for future work on daily indices (README, "Future exploration").
 """
 import calendar
 import os

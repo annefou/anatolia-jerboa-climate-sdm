@@ -8,6 +8,8 @@ and written to <ROOT>/era5l/<year>.npz. Years already written are skipped, so it
 and be restarted at any time. Raw downloads go to <ROOT>/era5l/parallel/ and are deleted once a year is written.
 
 Usage: python pipeline/04c_era5land_parallel.py <ROOT> [<WORKERS>]
+
+Not part of the results: kept for future work on daily indices (README, "Future exploration").
 """
 import calendar
 import os
