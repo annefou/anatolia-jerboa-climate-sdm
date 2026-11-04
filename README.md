@@ -53,41 +53,108 @@ GBIF records under their own licences (mostly CC BY and CC BY-NC); WorldClim (CC
 
 ---
 
-## Quick start
+## Install and run
+
+You can read the results without installing anything: the summary tables are in `results/`, the figures in
+`figures/`, and the [Jupyter Book](https://annefou.github.io/anatolia-jerboa-climate-sdm/) shows both. Rerunning the analysis needs the
+steps below.
+
+### Install
+
+1. Install pixi (<https://pixi.sh>): `curl -fsSL https://pixi.sh/install.sh | bash`.
+2. Get the code and the pinned environment:
+
+   ```bash
+   git clone https://github.com/annefou/anatolia-jerboa-climate-sdm.git
+   cd anatolia-jerboa-climate-sdm
+   pixi install
+   ```
+
+   Linux (x86-64), macOS (Apple silicon) and Windows: the pixi lock file covers all three. Pixi installs everything from `pixi.toml` and `pixi.lock` into `.pixi/`; `pixi run <task>` runs a
+   task in that environment without activating it.
+
+### Accounts each step needs
+
+| What you run | Data | Account needed |
+| --- | --- | --- |
+| `pixi run snakemake --cores 1` (the paper's design) | GBIF and iNaturalist occurrences, the paper's Figure 1A (Europe PMC), WorldClim 2.1 and CMIP6 | **none**: all public and anonymous |
+| `pixi run snakemake --cores 1 climatedt` | ERA5 1991-2020 (Microsoft Planetary Computer) | none (anonymous token, fetched by the script) |
+| | Climate DT generation 2, IFS-FESOM and IFS-NEMO | **DestinE upgraded access** |
+| `pixi run snakemake --cores 1 era5land` (cross-check) | ERA5-Land daily statistics and monthly means | **Copernicus Climate Data Store** (free) |
+| `pipeline/digitise/genbank_localities.py` (optional re-check) | GenBank records, OpenStreetMap Nominatim | none; the geocoded result is committed in `inputs/literature_genbank/` |
+
+Accounts are read from your home directory or the environment, never from the repository, and nothing in `work/`
+(the downloads) is committed. Set up only the ones for the steps you run.
+
+### Destination Earth: Climate DT (DestinE upgraded access)
+
+1. Create an account on the DestinE Platform, <https://platform.destine.eu/>, and request **upgraded access**, which
+   includes the Climate Change Adaptation Digital Twin. Eligibility and terms are set by the platform (at the time of
+   writing: users in EU Member States and in countries associated with the Digital Europe Programme; check the current
+   terms of use before you apply). Upgraded access is not automatic: allow time for the request to be reviewed.
+2. Get the Polytope key (an offline token) with ECMWF's script; it asks for your DestinE user name and password and
+   writes `{"user_key": "<offline token>"}` to `~/.polytopeapirc`:
+
+   ```bash
+   curl -sO https://raw.githubusercontent.com/destination-earth-digital-twins/polytope-examples/main/desp-authentication.py
+   pixi run python desp-authentication.py
+   ```
+
+   `polytope-client` also reads `POLYTOPE_USER_KEY` from the environment. A *DestinE Data Lake* (DEDL) API key is a
+   different credential and is refused by Polytope (HTTP 401).
+3. Authentication is not authorisation: a valid key can still be refused the data if upgraded access has not been
+   granted yet; the first request tells you.
+4. Terms: raw Climate DT data may not be redistributed. The pipeline keeps downloads in `work/` (not in git) and
+   commits only derived statistics; keep it that way in any fork.
+
+### Copernicus Climate Data Store (ERA5-Land)
+
+1. Create a free account at <https://cds.climate.copernicus.eu> and log in.
+2. Accept the licence of each dataset used, on the dataset page under *Download* → *Terms of use*: `derived-era5-land-daily-statistics` and `reanalysis-era5-land-monthly-means`.
+3. Copy your personal access token from your profile page into `~/.cdsapirc`:
+
+   ```
+   url: https://cds.climate.copernicus.eu/api
+   key: <your personal access token>
+   ```
+
+   `cdsapi` also reads `CDSAPI_URL` and `CDSAPI_KEY` from the environment. Requests wait in the CDS queue (minutes to
+   hours); the downloads are resumable.
+
+### Run
 
 ```bash
-git clone https://github.com/annefou/anatolia-jerboa-climate-sdm.git
-cd anatolia-jerboa-climate-sdm
-pixi install
-pixi run occurrences          # GBIF via healpix-connector
-pixi run climate              # WorldClim and CMIP6 on HEALPix
-pixi run sdm                  # model, losses, threshold and background sensitivity
-pixi run python pipeline/06_null_control.py work
+pixi run snakemake --cores 1             # GBIF, iNaturalist, digitised and GenBank localities, WorldClim + CMIP6: no account
+pixi run snakemake --cores 1 climatedt   # ERA5 (anonymous) + Climate DT: DestinE upgraded access
+pixi run snakemake --cores 1 era5land    # ERA5-Land cross-check: CDS account; the CDS queue is slow (hours per request)
 ```
 
-(Pixi resolves `pixi.toml` against the per-platform `pixi.lock`, installs the env under `.pixi/`, and provides `pixi run` for any task without needing an `activate` step.)
-
-Or with Docker:
-
-```bash
-docker run --rm ghcr.io/annefou/anatolia-jerboa-climate-sdm:latest
-```
-
-The Jupyter Book version is at <https://annefou.github.io/anatolia-jerboa-climate-sdm/>.
-
-## How to reproduce
-
-```
-pixi install
-pixi run snakemake --cores 1             # GBIF, iNaturalist, digitised and GenBank localities, WorldClim + CMIP6
-pixi run snakemake --cores 1 climatedt   # ERA5 (Planetary Computer) + Climate DT: needs DestinE upgraded access
-pixi run snakemake --cores 1 era5land    # ERA5-Land cross-check: needs a CDS account; the CDS queue is slow
-```
+Single steps: `pixi run occurrences`, `pixi run climate`, `pixi run sdm`, `pixi run python pipeline/06_null_control.py work`.
 
 Every step is a script in `pipeline/` with its usage in its docstring; `Snakefile` gives the order, inputs and
-outputs. Accounts are read from `~/.polytopeapirc` (DestinE) and `~/.cdsapirc` (CDS) and never stored here.
-Downloads stay in `work/`; only code, plots, inputs that we digitised or georeferenced, and summary results are
-committed. The country-file charts are in `docs/country_file/` (code, rows and the script that writes them).
+outputs. `pixi run snakemake --cores 1 --dry-run` lists what would run without downloading anything.
+The charts of the LifeWatch country file are in `docs/country_file/` (chart code and the rows they plot).
+
+### With Docker
+
+The image holds the environment and the code, never an account. Put the accounts the steps need in a file that
+stays on your machine (for example `~/credentials.env`, outside the repository) and pass it at run time, from the
+cloned repository (so that `work/` and `results/` are kept on your disk):
+
+```
+CDSAPI_URL=https://cds.climate.copernicus.eu/api
+CDSAPI_KEY=<CDS personal access token>
+COPERNICUSMARINE_SERVICE_USERNAME=<Copernicus Marine user name>
+COPERNICUSMARINE_SERVICE_PASSWORD=<Copernicus Marine password>
+POLYTOPE_USER_KEY=<DestinE offline token>
+```
+
+```bash
+docker run --rm --env-file ~/credentials.env -v "$PWD/work:/app/work" -v "$PWD/results:/app/results" \
+    ghcr.io/annefou/anatolia-jerboa-climate-sdm:latest pixi run snakemake --cores 1 climatedt
+```
+
+Leave out the lines a step does not need. The image is published on GitHub's container registry with each release.
 
 ## Built from a template
 
