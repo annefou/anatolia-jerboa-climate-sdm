@@ -96,9 +96,12 @@ jobs:
       #     path: data/raw
       #     key: input-data-v1
 
-      - name: Run pipeline
+      # Dry run only: the inputs need accounts (CDS, Copernicus Marine, DestinE upgraded access) and hours of
+      # downloads, and DestinE raw data may not leave the analysis machine. The dry run checks that every rule,
+      # input and output is wired; the committed results/ and figures/ come from the full local run.
+      - name: Check the pipeline (dry run)
         if: steps.guard.outputs.ready == 'true'
-        run: pixi run snakemake --cores 1
+        run: pixi run snakemake --cores 1 --dry-run --forceall
 
       - name: Upload results
         if: always() && steps.guard.outputs.ready == 'true'
