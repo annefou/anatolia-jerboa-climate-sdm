@@ -6,6 +6,10 @@ LABEL org.opencontainers.image.licenses="MIT"
 
 WORKDIR /app
 
+# git is needed by pixi to install healpix-connector, a git dependency in pixi.toml; the pixi base image has none.
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install the pinned environment first (separate from source copy so the lock
 # layer is cached across source-only edits).
 COPY pixi.toml pixi.lock /app/

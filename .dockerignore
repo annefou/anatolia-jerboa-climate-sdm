@@ -1,0 +1,10 @@
+# Local folders that must not go into the image (downloads, environments, build output)
+.pixi/
+.git/
+work/
+work18/
+_build/
+.snakemake/
+**/__pycache__/
+*.log
+paper/*.pdf
