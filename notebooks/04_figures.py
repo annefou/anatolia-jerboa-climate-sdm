@@ -16,48 +16,20 @@
 # %% [markdown]
 # # 04 — Figures
 #
-# This notebook produces the figures used in the Jupyter Book. Each figure is
-# saved to `figures/` as a high-DPI PNG **and** displayed inline (so MyST
-# renders the figure inside the Jupyter Book — see
-# `docs/cicd-conventions.md`).
+# Written by `pipeline/99_doc_figures.py` and `pipeline/digitise/` and committed in `figures/`.
 #
-# **Inline display rule:** always pair `fig.savefig(...)` with `plt.show()`.
-# Without `plt.show()`, MyST builds an empty cell. Don't use
-# `matplotlib.use('Agg')` — it blocks inline display.
+# ## Projected loss against the null control
+# ![Loss vs null](../figures/doc_loss_vs_null.png)
 #
-# **Layout check:** call `assert_layout(fig)` (`scripts/figcheck.py`) before
-# `fig.savefig(...)`. It fails the notebook — and so the pipeline — when two text
-# labels overlap or nearly touch, or when a legend covers data. For labels at the
-# end of lines, `spread_labels(ax, [(x, y, text), ...])` keeps them apart; call it
-# after `fig.tight_layout()`.
-
-# %%
-import sys
-from pathlib import Path
-
-import matplotlib.pyplot as plt
-import pandas as pd
-
-sys.path.insert(0, str(Path("../scripts").resolve()))
-from figcheck import assert_layout  # noqa: E402
-
-# %%
-RESULTS_DIR = Path("../results")
-FIGURES_DIR = Path("../figures")
-FIGURES_DIR.mkdir(parents=True, exist_ok=True)
+# ## WorldClim + CMIP6 against ERA5 + Climate DT
+# ![WorldClim vs Climate DT](../figures/doc_worldclim_vs_climatedt.png)
+#
+# ## Localities digitised from Figure 1A, overlay check
+# ![Digitised overlay](../figures/helvaci2025_fig1A_digitised_overlay.png)
 
 # %% [markdown]
-# ## Main result figure
-
-# %%
-# summary = pd.read_csv(RESULTS_DIR / "summary.csv")
-
-# fig, ax = plt.subplots(figsize=(8, 5))
-# ax.bar(summary["metric"], summary["value"])
-# ax.set_title("Replication headline result")
-# ax.set_ylabel("Value")
-# fig.tight_layout()
-# assert_layout(fig)  # no overlapping labels, no legend over data
-#
-# fig.savefig(FIGURES_DIR / "main_result.png", dpi=150, bbox_inches="tight")
-# plt.show()  # required for MyST inline display
+# ## Limits
+# - The paper's own coordinates are not public; map readings carry about 15 km uncertainty. Cells of 6.4 km against
+#   the paper's 1 km grid.
+# - Climate only: land use (steppe turned to cropland) is not in the model.
+# - The Climate DT monthly stream has no maximum or minimum temperature (see 02).

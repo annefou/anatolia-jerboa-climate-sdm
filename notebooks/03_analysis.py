@@ -14,58 +14,52 @@
 # ---
 
 # %% [markdown]
-# # 03 — Analysis
+# # 03 — Claim tested
 #
-# This notebook computes the headline statistic that the replication tests.
-# Write the analysis as a faithful port of the original paper's method, with
-# any deviations flagged explicitly in the markdown.
+# Williams' jerboa loses 40–48 % of its suitable habitat by 2021–2040 and 64–98 % by 2081–2100 (MIROC6, four SSPs;
+# Random Forest, eight bioclimatic variables, threshold 0.3).
 #
-# **Verify before drafting nanopubs:** the Replication Study's Methodology
-# field and the Outcome's Evidence field will be drafted *from this code* —
-# don't extrapolate framework or hyperparameters from memory. See
-# `docs/verify-before-drafting.md`.
+# Model as in the paper (Random Forest, 1,000 background cells, 10 replicates 70/30, TSS-weighted ensemble), plus a
+# **null control** (`pipeline/06_null_control.py`): the "loss" the model shows with no climate change at all, from 5
+# refits. A projected loss means something only when it clears the null.
 
 # %%
+import json
 from pathlib import Path
 
 import pandas as pd
 
-# %%
-CLEAN_DIR = Path("../data/clean")
-RESULTS_DIR = Path("../results")
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+R = Path("../results")
+rows = []
+for f, label in [("sdm_worldclim", "19 GBIF cells"), ("sdm_worldclim_occurrences_merged", "73 cells (GBIF + iNat + Fig 1A)"),
+                 ("sdm_worldclim_occurrences_genbank", "43 cells (GBIF + GenBank)"),
+                 ("sdm_era5_occurrences_merged", "73 cells, ERA5 baseline")]:
+    d = json.loads((R / f"{f}.json").read_text())
+    m = d["paper_design"]["metrics_mean"]
+    rows.append({"occurrences": label, "presence cells": d["n_presence_cells"], "AUC": m["auc"], "TSS": m["tss"],
+                 "max-TSS threshold": d["paper_design"]["threshold_maxtss"]})
+pd.DataFrame(rows)
 
 # %% [markdown]
-# ## Load clean data
+# ## Null control against projected loss, near term (2021–2040, SSP3-7.0)
 
 # %%
-# clean = pd.read_parquet(CLEAN_DIR / "dataset.parquet")
+pd.DataFrame(json.loads((R / "doc_figure_loss_vs_null.json").read_text()))
 
 # %% [markdown]
-# ## Method (port of paper §X)
-#
-# Briefly state the method and any deviations from the original paper.
-#
-# - **Same as paper:** ...
-# - **Deviations:** ...
+# ## Loss by model and scenario, 73 cells, paper design
 
 # %%
-# Implement the analysis here. Examples:
-# - Statistical model fit (statsmodels, bambi, scikit-learn)
-# - ML training/evaluation (PyTorch, TensorFlow, scikit-learn)
-# - Spatial aggregation + zonal statistics
+loss = pd.read_csv(R / "loss_worldclim_occurrences_merged.csv")
+loss[loss.design == "paper_design"].pivot(index="climate", columns="threshold", values="loss_pct")
 
 # %% [markdown]
-# ## Persist results
+# ## WorldClim against ERA5 + Climate DT changes
 
 # %%
-# Persist a tidy summary that downstream notebooks (and the Outcome
-# nanopub draft) can read. Include numerical headlines + uncertainty.
-#
-# Example:
-# summary = pd.DataFrame({
-#     "metric": ["coefficient", "p_value", "n"],
-#     "value":  [0.4792, 1e-5, 528],
-# })
-# summary.to_csv(RESULTS_DIR / "summary.csv", index=False)
-# print(summary)
+pd.DataFrame(json.loads((R / "doc_figure_climatedt.json").read_text()))
+
+# %% [markdown]
+# With public GBIF data alone the projected loss cannot be told from model noise; with the authors' own localities a
+# climate signal clears it. The magnitude depends strongly on the threshold; the direction and the dependence on
+# emissions are the robust findings.

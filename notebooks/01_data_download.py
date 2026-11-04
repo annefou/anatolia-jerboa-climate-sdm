@@ -14,90 +14,43 @@
 # ---
 
 # %% [markdown]
-# # 01 — Data download
+# # 01 — Data
 #
-# This notebook fetches all input data needed by the replication pipeline.
-# Every dataset is downloaded from a citable source (Zenodo, GBIF, Copernicus,
-# etc.) and a record of the source is logged into `data/raw/sources.json`
-# alongside the data files.
+# **DRAFT, not reviewed.** LifeWatch ERIC feasibility test, our reading of the published work (Helvacı and Çolak 2025,
+# *Biology* 14:1184, [doi:10.3390/biology14091184](https://doi.org/10.3390/biology14091184)), open to correction by
+# the authors.
 #
-# **Self-contained data:** The repository ships without input data. This
-# notebook is the only path that brings data into `data/raw/`. A user cloning
-# the repo and running this notebook should get a complete reproducible run.
+# The pipeline is in `pipeline/` and `Snakefile` (see *How to reproduce* in the README). It is **not** rerun when this
+# book is built: it downloads WorldClim and CMIP6 layers and reads ERA5 and Climate DT (DestinE upgraded access).
+# These pages read the summary results committed in `results/`, the digitised localities in `inputs/` and the
+# figures in `figures/`.
 #
-# **Credentials:** if your replication uses a credentialled API, document the
-# credential setup at the top of this notebook, including:
+# | Input | Source | Licence | Pipeline step |
+# |---|---|---|---|
+# | GBIF occurrences, *Scarturus williamsi* (Catalogue of Life XR keys BSW8 and VNB82) | GBIF via healpix-connector v0.2.0 ([doi:10.5281/zenodo.23603498](https://doi.org/10.5281/zenodo.23603498)) | per record (mostly CC BY, CC BY-NC) | `pipeline/00_occurrences.py` |
+# | 53 localities read from Figure 1A of the paper (~15 km uncertainty) | Helvacı and Çolak 2025 | CC BY 4.0 | `pipeline/digitise/`, `inputs/literature/` |
+# | 23 GenBank localities (check without map digitising) | Olgun Karacan et al. 2024, [doi:10.1155/jzs/8123686](https://doi.org/10.1155/jzs/8123686), geocoded with Nominatim | – | `pipeline/digitise/genbank_localities.py`, `inputs/literature_genbank/` |
+# | WorldClim 2.1 (2.5′) and CMIP6 change factors | WorldClim | CC BY 4.0 | `pipeline/01_worldclim_healpix.py` |
+# | ERA5 1991–2020 | Planetary Computer Zarr | Copernicus, CC BY | `pipeline/04b_era5.py` |
+# | Climate DT generation 2, IFS-FESOM and IFS-NEMO | DestinE upgraded access | DestinE terms: derived statistics only | `pipeline/03_climatedt.py` |
 #
-# - Where the user gets the credential (URL).
-# - Where it lives on disk (or which env var Claude expects).
-# - The corresponding GitHub Actions secret name(s) for CI.
+# Grid: HEALPix depth 10 (40.5 km² cells; healpix-geo, WGS84 ellipsoid, NESTED).
 
 # %%
 import json
 from pathlib import Path
 
-import requests
+import pandas as pd
+
+R = Path("../results")
+g = json.loads((R / "occurrences_summary.json").read_text())
+print("GBIF via", g["connector"], "|", g["taxonomy"], "| taxon keys:", g["taxon_keys"])
+print(pd.Series(g["filter_steps"], name="GBIF records kept at each step").to_string())
+for name in ["occurrences_merged_summary", "occurrences_genbank_summary"]:
+    s = json.loads((R / f"{name}.json").read_text())
+    print(name, "| cells:", s.get("cells_total"), "| by source:", s.get("cells_by_source"))
 
 # %%
-RAW_DIR = Path("../data/raw")
-RAW_DIR.mkdir(parents=True, exist_ok=True)
-
-# %% [markdown]
-# ## Source registry
-#
-# Replace the placeholder source(s) below with your actual data sources. Each
-# entry should record: name, URL or DOI, license, accessed-on date, and SHA-256
-# of the downloaded file (computed and added after first download).
-
-# %%
-SOURCES = [
-    {
-        "name": "<dataset-name>",
-        "doi": "<10.x/y or null>",
-        "url": "<https://...>",
-        "license": "<CC-BY-4.0 / CC-BY-NC-4.0 / public-domain / ...>",
-        "accessed_on": "2026-10-23",
-        "sha256": None,  # filled after first download
-    },
-    # Add more sources here as needed.
-]
-
-
-# %% [markdown]
-# ## Download
-
-# %%
-def download_source(source: dict) -> Path:
-    """Fetch a single source into data/raw/. Replace with your real implementation."""
-    # Example skeleton — adapt to your data source's API:
-    # response = requests.get(source["url"], stream=True, timeout=300)
-    # response.raise_for_status()
-    # out_path = RAW_DIR / Path(source["url"]).name
-    # with open(out_path, "wb") as f:
-    #     for chunk in response.iter_content(chunk_size=8192):
-    #         f.write(chunk)
-    # return out_path
-    raise NotImplementedError(
-        "Implement download for: " + source["name"] + ". "
-        "See data/README.md for common patterns."
-    )
-
-
-# %%
-# Uncomment when SOURCES is populated:
-# for source in SOURCES:
-#     print(f"Fetching {source['name']}...")
-#     path = download_source(source)
-#     print(f"  -> {path}")
-
-# %% [markdown]
-# ## Source log
-#
-# Persist the source registry to disk so that downstream notebooks can audit
-# what data was used and when.
-
-# %%
-with open(RAW_DIR / "sources.json", "w") as f:
-    json.dump({"sources": SOURCES}, f, indent=2)
-
-print(f"Logged {len(SOURCES)} source(s) to {RAW_DIR / 'sources.json'}")
+lit = pd.read_csv("../inputs/literature/helvaci2025_fig1A_digitised.csv")
+print(len(lit), "localities digitised from Figure 1A")
+lit.head()
