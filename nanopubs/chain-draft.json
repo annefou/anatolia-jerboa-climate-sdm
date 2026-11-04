@@ -120,7 +120,7 @@
       "prefill": {
         "outcome": "scarturus-williamsi-habitat-loss-outcome",
         "label": "Severe end-of-century habitat loss reproduced with the authors' localities, not with public GBIF data alone; size depends on the threshold",
-        "repo": "https://doi.org/10.5281/zenodo.23945001",
+        "repo": "https://doi.org/10.5281/zenodo.23949338",
         "date": "2026-11-04",
         "validationStatus": "https://w3id.org/sciencelive/o/terms/PartiallySupported",
         "conclusion": "With the paper's design, threshold 0.3 and the 73 cells that include localities read from the paper's map, MIROC6 losses for 2081-2100 are 83.6, 92.3, 95.1 and 95.8% from SSP1-2.6 to SSP5-8.5, against the paper's 63.69-98.41%, and well above the 25% apparent loss that refitting the model with no climate change produces. An independent set of GenBank localities gives 81.8-98.0% against a 36% null. With public GBIF records alone (19 cells) the losses, 45.6-56.4%, cannot be told apart from the 51.5% null and show no rise with emissions. With a data-tuned threshold the losses fall to 27-41%. The severe, emission-dependent loss is supported, but only with the authors' localities, and its size depends on the threshold.",
