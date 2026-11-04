@@ -10,8 +10,8 @@
   "codeRepository": "https://github.com/annefou/anatolia-jerboa-climate-sdm",
   "identifier": [
     "https://doi.org/10.5281/zenodo.23942469",
-    "https://doi.org/10.5281/zenodo.23945001",
-    "swh:1:rev:50bc119c5079568f3417a9497c27da967f4f9e82;origin=https://github.com/annefou/anatolia-jerboa-climate-sdm"
+    "https://doi.org/10.5281/zenodo.23949338",
+    "swh:1:rev:b83d567862696bf4cc04d2fc37f012ddc7317266;origin=https://github.com/annefou/anatolia-jerboa-climate-sdm"
   ],
   "@id": "https://doi.org/10.5281/zenodo.23942469",
   "programmingLanguage": {
